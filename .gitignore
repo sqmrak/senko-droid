@@ -1,0 +1,13 @@
+build/
+.build-*/
+tests/test_*
+!tests/test_*.c
+!tests/test_*.sh
+!tests/test_*.py
+tests/*.so
+app/build/
+.gradle/
+local.properties
+/*.apk
+*.log
+build-host.log

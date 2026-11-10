@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- every screen draws its own bar, the system action bar would sit above it as a black strip on android 4 -->
+    <style name="AppTheme" parent="@android:style/Theme.DeviceDefault.NoActionBar">
+        <item name="android:windowAnimationStyle">@style/ScreenAnimation</item>
+    </style>
+</resources>

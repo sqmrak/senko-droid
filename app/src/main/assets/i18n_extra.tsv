@@ -1,0 +1,120 @@
+The tunnel could not be opened. The VPN permission may have been withdrawn: connect again.	Не удалось открыть туннель. Возможно, разрешение VPN отозвано: подключитесь снова.	无法打开隧道。VPN 权限可能已被撤销，请重新连接。
+The tunnel stopped right after it started. Open the log from the menu for the reason.	Туннель остановился сразу после запуска. Причина указана в журнале (меню).	隧道启动后立即停止。请在菜单中打开日志查看原因。
+The tunnel could not start. Open the log from the menu to see what failed.	Не удалось запустить туннель. Откройте журнал в меню, чтобы увидеть причину.	无法启动隧道。请在菜单中打开日志查看原因。
+The Senko engine is not responding. Open the app again.	Движок Senko не отвечает. Откройте приложение снова.	Senko 引擎无响应。请重新打开应用。
+Address is required	Нужен адрес	需要填写地址
+Android version	Версия Android	Android 版本
+Apps and system traffic use the selected profile through a VPN service. No root is needed.	Приложения и системный трафик идут через выбранный профиль по службе VPN. Root не нужен.	应用和系统流量通过 VPN 服务使用所选配置。无需 root。
+Apps marked Direct skip the tunnel. A change applies the next time the tunnel connects.	Приложения с пометкой «Напрямую» обходят туннель. Изменение вступит в силу при следующем подключении.	标记为“直连”的应用绕过隧道。更改将在下次连接时生效。
+Backup saved	Копия сохранена	备份已保存
+Built-in TLS · bundled trust roots	Встроенный TLS · свои корневые сертификаты	内置 TLS · 自带受信任根证书
+By ping	По пингу	按延迟
+Checking...	Проверка...	检测中...
+Collected %s frames of the profile	Собрано кадров профиля: %s	已收集配置帧：%s
+Colours show on this screen only after saving.	Цвета на этом экране обновятся после сохранения.	颜色保存后才会在此界面生效。
+Connects to the fastest server	Подключается к самому быстрому серверу	连接到最快的服务器
+Copy link	Скопировать ссылку	复制链接
+Corner radius	Скругление углов	圆角半径
+Default order	Исходный порядок	默认顺序
+Delete rule	Удалить правило	删除规则
+Device id, rules, debug bundle	ID устройства, правила, отладочный пакет	设备 ID、规则、调试包
+Edit config	Изменить конфиг	编辑配置
+Edit theme	Изменить тему	编辑主题
+Engine is unreachable	Движок недоступен	引擎不可用
+Export	Экспорт	导出
+GitHub	GitHub	GitHub
+Has a dark palette	Есть тёмная палитра	含深色配色
+Hold a custom theme to edit, export or delete it.	Удерживайте свою тему, чтобы изменить, экспортировать или удалить её.	长按自定义主题可编辑、导出或删除。
+Listeners, trace, DNS answers	Слушатели, трассировка, ответы DNS	监听、跟踪、DNS 应答
+Maintenance	Обслуживание	维护
+Move down	Переместить вниз	下移
+Move up	Переместить вверх	上移
+Name is required	Нужно имя	需要填写名称
+No answer	Нет ответа	无响应
+No app can open this link	Ни одно приложение не открывает эту ссылку	没有应用可以打开此链接
+No themes yet. Use + to make one.	Тем пока нет. Создайте тему кнопкой +.	还没有主题。点击 + 创建。
+Palette	Палитра	配色
+Point the camera at a QR code	Наведите камеру на QR-код	将相机对准二维码
+Probe	Проверка	探测
+Remove AmneziaWG profile	Удалить профиль AmneziaWG	移除 AmneziaWG 配置
+Remove server	Удалить сервер	移除服务器
+Remove subscription	Удалить подписку	移除订阅
+Same name	С тем же именем	同名数量
+Saved	Сохранено	已保存
+Saved to %s	Сохранено: %s	已保存到 %s
+Search	Поиск	搜索
+Send	Отправить	发送
+Senko needs the VPN permission to route traffic	Senko нужно разрешение VPN, чтобы направлять трафик	Senko 需要 VPN 权限才能转发流量
+Sent with every refresh, written as Name: value	Отправляется при каждом обновлении в виде Имя: значение	每次刷新时发送，格式为 名称: 值
+Servers	Серверы	服务器
+Showing %d of %d	Показано %d из %d	显示 %d / %d
+Staged probes of one server	Поэтапные проверки одного сервера	对单个服务器的分阶段探测
+Stages	Этапы	阶段
+Starting…	Запуск…	启动中…
+Subscription refreshed	Подписка обновлена	订阅已刷新
+Talk to the control socket	Разговор с управляющим сокетом	与控制套接字交互
+Telegram	Telegram	Telegram
+The engine is not answering, so these cannot be read or changed.	Движок не отвечает, поэтому значения нельзя прочитать или изменить.	引擎无响应，因此无法读取或更改这些设置。
+This server uses a transport senko cannot dial yet	Этот сервер использует транспорт, который Senko пока не умеет	此服务器使用 Senko 暂不支持的传输方式
+Type a control command, for example STATUS or LIST.	Введите команду, например STATUS или LIST.	输入控制命令，例如 STATUS 或 LIST。
+camera access is denied	доступ к камере запрещён	相机权限被拒绝
+checking engine...	проверка движка...	正在检查引擎...
+Nothing found	Ничего не найдено	未找到
+No app log lines	В журнале приложения нет строк	应用日志中没有内容
+Reading the rules from the engine...	Чтение правил из движка...	正在从引擎读取规则...
+Asking the engine...	Запрос к движку...	正在询问引擎...
+This style has a dark palette only.	У этого стиля только тёмная палитра.	此样式仅有深色配色。
+This style has a light palette only.	У этого стиля только светлая палитра.	此样式仅有浅色配色。
+Address	Адрес	地址
+server link	ссылка на сервер	服务器链接
+paste a subscription URL or a server link	вставьте адрес подписки или ссылку на сервер	粘贴订阅地址或服务器链接
+Link copied	Ссылка скопирована	链接已复制
+Delete this custom theme?	Удалить эту тему?	删除此自定义主题？
+Delete this rule?	Удалить это правило?	删除此规则？
+Remove every server added by hand?	Удалить все серверы, добавленные вручную?	移除所有手动添加的服务器？
+Remove the profile and its keys from this device?	Удалить профиль и его ключи с этого устройства?	从此设备移除该配置及其密钥？
+Remove this server from the list?	Убрать этот сервер из списка?	从列表中移除此服务器？
+Remove this subscription and its servers?	Удалить эту подписку и её серверы?	移除此订阅及其服务器？
+Subscription panels will see a new device.	Панели подписок увидят новое устройство.	订阅面板将看到一台新设备。
+This cannot be undone.	Это нельзя отменить.	此操作无法撤销。
+Android	Android	Android
+server added	сервер добавлен	服务器已添加
+amnezia bundle carries no readable config	в пакете Amnezia нет читаемой конфигурации	Amnezia 数据包中没有可读取的配置
+Block wins over direct, direct wins over the tunnel, whatever the order. The tunnel core reads the real domain from the connection.	Блокировка сильнее прямого доступа, а прямой доступ сильнее туннеля, независимо от порядка. Ядро туннеля берёт настоящий домен из соединения.	无论顺序如何，拦截优先于直连，直连优先于隧道。隧道核心会从连接中读取真实域名。
+Disconnecting	Отключение…	正在断开…
+Throughput	Скорость	吞吐量
+Last %d seconds	Последние %d сек.	最近 %d 秒
+Peak %s	Пик %s	峰值 %s
+Average speed	Средняя скорость	平均速度
+Peak download	Пик загрузки	峰值下载
+Peak upload	Пик отдачи	峰值上传
+Total transferred	Всего передано	总流量
+Measured	Проверено	已检测
+Best	Лучшая	最佳
+Average	Средняя	平均
+Worst	Худшая	最差
+Protocols	Протоколы	协议
+expressive shapes, rubik and a shimmering title	выразительные формы, Rubik и переливающийся заголовок	富有表现力的形状、Rubik 字体和流光标题
+the look of android 5 and 6	внешний вид Android 5 и 6	Android 5 和 6 的外观
+the look of android 4	внешний вид Android 4	Android 4 的外观
+
+Connect or disconnect	Подключить или отключить	连接或断开
+The backup contains server credentials. Anyone with access to the saved file can read them.	Резервная копия содержит данные доступа к серверам. Их сможет прочитать любой, у кого есть доступ к файлу.	备份包含服务器凭据。能够访问文件的人都可以读取它们。
+Check speed	Проверить скорость	测试速度
+More options	Дополнительные действия	更多选项
+Root access	Root-доступ	Root 权限
+root access is needed on this android and su was not found	На этой версии Android нужен root-доступ, а su не найден.	此 Android 版本需要 root 权限，但未找到 su。
+root access was refused or the helper could not start	В root-доступе отказано, либо помощник не запустился.	root 权限被拒绝，或辅助程序无法启动。
+root access was not granted in time	Root-доступ не был выдан вовремя.	未能及时获得 root 权限。
+the root helper is not part of this build for this cpu	В этой сборке нет root-помощника для этого процессора.	此版本没有适用于该处理器的 root 辅助程序。
+Tunnel core	Ядро туннеля	隧道内核
+Xray core	Ядро Xray	Xray 内核
+Built-in engine	Встроенный движок	内置引擎
+Automatic	Автоматически	自动
+Automatic uses the Xray core when it can carry the profile. Applied on the next connect.	Автоматический режим берёт ядро Xray, если оно может нести профиль. Применится при следующем подключении.	自动模式会在 Xray 内核能承载该配置时使用它。下次连接时生效。
+Account page	Страница аккаунта	账户页面
+Support	Поддержка	支持
+Counter resets	Сброс счётчика	流量重置
+The panel asks for a refresh every	Панель просит обновлять раз в	面板要求刷新间隔
+h	ч	小时
+No app can open this link	Нет приложения, которое откроет эту ссылку	没有可以打开此链接的应用

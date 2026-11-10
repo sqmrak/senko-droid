@@ -1,0 +1,91 @@
+#ifndef TRANSPORT_H
+#define TRANSPORT_H
+
+#include <stddef.h>
+#include <stdint.h>
+
+#include "net_fail.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#define TRANSPORT_WANT_READ   (-1) /* wait for socket input before retrying */
+#define TRANSPORT_WANT_WRITE  (-2) /* wait for socket output before retrying */
+#define TRANSPORT_EOF         (-3) /* close after the peer ends the stream */
+#define TRANSPORT_ERR         (-4) /* close after an unrecoverable failure */
+
+typedef struct transport_tls_shared transport_tls_shared_t;
+
+/* borrow config strings so transport opens can outlive the caller stack */
+typedef struct {
+    const char *sni; /* preserve the tls server name */
+    const char *fingerprint;/* preserve the browser fingerprint choice */
+    const char *reality_pbk;/* enable reality only when a key is present */
+    const char *reality_sid;/* preserve the optional reality short id */
+    const char *path; /* preserve the transport request path */
+    const char *ws_host; /* preserve the websocket host header */
+    const char *xhttp_mode; /* preserve the xhttp stream mode */
+    const char *peer_host; /* dial target host, last authority fallback */
+    int insecure; /* skip certificate and hostname verification (allowInsecure) */
+/* offer h2 instead of http/1.1 in the tls hello. set by the xhttp and grpc layers, which speak
+   http/2 on the stream: a server that negotiated no h2 reads their preface as a broken http/1
+   request and closes the connection before sending a single frame */
+    int alpn_h2;
+/* vless encryption profile (vlenc_intern id, 0 for none) and the server port
+   the 0rtt tickets are scoped to. the wrapper transports refuse a zero id */
+    uint16_t vless_enc;
+    uint16_t peer_port;
+    transport_tls_shared_t *shared_ctx; /* borrowed trust store for one backend run */
+/* where the transport records why the server failed. caller owned and NULL in
+   the relays; handles keep the pointer, so it has to outlive them */
+    net_fail_t *fail;
+} transport_tls_cfg_t;
+
+transport_tls_shared_t *transport_tls_shared_create(const transport_tls_cfg_t *cfg);
+void transport_tls_shared_destroy(transport_tls_shared_t *shared);
+
+typedef struct transport_vt {
+/* open from a connected fd without blocking the shared loop */
+    void *(*open)(int fd, const transport_tls_cfg_t *cfg);
+
+/* move application bytes and expose backpressure through the result */
+    int (*read)(void *h, uint8_t *buf, size_t len);
+    int (*write)(void *h, const uint8_t *buf, size_t len);
+
+/* splice plaintext only after the transport has entered direct mode */
+    int (*raw_write)(void *h, const uint8_t *buf, size_t len);
+
+/* release transport state while the daemon retains fd ownership */
+    void (*close)(void *h);
+
+/* report pending ciphertext so the loop continues polling for output */
+    int (*want_write)(void *h);
+
+/* half close after the relay drained cleanly; optional (http/2 end stream) */
+    void (*shutdown)(void *h);
+
+/* the vision reader saw the peer's direct command: a layer that frames the
+   stream itself learns here that plain bytes may follow; optional */
+    void (*peer_direct)(void *h);
+} transport_vt_t;
+
+extern const transport_vt_t transport_tcp; /* plain tcp transport */
+extern const transport_vt_t transport_tls; /* tls and reality transport */
+extern const transport_vt_t transport_ws_tcp;/* websocket over plain tcp */
+extern const transport_vt_t transport_ws_tls;/* websocket over tls */
+extern const transport_vt_t transport_ws_reality; /* websocket over reality */
+extern const transport_vt_t transport_xhttp_tcp;
+extern const transport_vt_t transport_xhttp_tls;
+extern const transport_vt_t transport_xhttp_reality;
+
+/* the vless encryption layer over each stream transport above, null where the
+   combination does not exist. one wrapper per inner transport because open()
+   gets no other way to tell them apart. core/transport_enc.c */
+const transport_vt_t *transport_enc_over(const transport_vt_t *inner);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* transport_h */

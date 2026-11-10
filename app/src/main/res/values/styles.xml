@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- every screen draws its own title, android 2.3 has no action bar and DeviceDefault starts at android 4.0, see values-v14 -->
+    <style name="AppTheme" parent="@android:style/Theme.NoTitleBar">
+        <item name="android:windowAnimationStyle">@style/ScreenAnimation</item>
+    </style>
+
+    <!-- the stock transitions differ per vendor skin and jump on api 16, so the screens slide the same way everywhere -->
+    <style name="ScreenAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/screen_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/screen_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/screen_back_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/screen_back_exit</item>
+    </style>
+</resources>

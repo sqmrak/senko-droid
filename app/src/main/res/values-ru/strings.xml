@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Senko</string>
+
+    <string name="state_idle">Отключено</string>
+    <string name="state_connecting">Подключение…</string>
+    <string name="state_connected">Подключено</string>
+    <string name="state_error">Не удалось подключиться</string>
+    <string name="state_engine_down">Запуск движка…</string>
+
+    <string name="connect">Подключить</string>
+    <string name="disconnect">Отключить</string>
+    <string name="pick_server">Выберите сервер ниже</string>
+    <string name="empty_catalog">Серверов пока нет. Добавьте из меню: ссылку на сервер или адрес подписки.</string>
+    <string name="traffic">↑ %1$s   ↓ %2$s</string>
+    <string name="unsupported">не поддерживается</string>
+    <string name="ping_ms">%1$d мс</string>
+    <string name="ping_failed">нет ответа</string>
+
+    <string name="menu_add">Добавить</string>
+    <string name="menu_refresh">Обновить подписки</string>
+    <string name="menu_ping">Проверить серверы</string>
+    <string name="menu_settings">Настройки</string>
+    <string name="menu_logs">Журнал</string>
+
+    <string name="add_title">Добавить сервер или подписку</string>
+    <string name="add_hint">vless://… или https://…</string>
+    <string name="paste">Вставить</string>
+    <string name="add">Добавить</string>
+    <string name="cancel">Отмена</string>
+    <string name="added">Добавлено</string>
+    <string name="refreshing">Обновление…</string>
+    <string name="refreshed">Подписки обновлены</string>
+    <string name="checking">Проверка серверов…</string>
+
+    <string name="delete">Удалить</string>
+    <string name="vpn_needed">Для маршрутизации трафика нужно разрешение VPN</string>
+    <string name="error_prefix">Ошибка: %1$s</string>
+
+    <string name="settings_title">Настройки</string>
+    <string name="setting_dns">DNS-сервер</string>
+    <string name="setting_auto_connect">Подключаться при запуске</string>
+    <string name="setting_auto_reconnect">Переподключаться после обрыва</string>
+    <string name="setting_failover">Пробовать другой сервер при сбое</string>
+    <string name="setting_refresh_hours">Обновлять подписки каждые (часов, 0 — выключено)</string>
+    <string name="save">Сохранить</string>
+    <string name="saved">Сохранено</string>
+    <string name="log_title">Журнал движка</string>
+    <string name="close">Закрыть</string>
+</resources>

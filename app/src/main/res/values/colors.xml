@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- the orange behind the fox, shown where a launcher mask reveals more than the artwork covers -->
+    <color name="icon_background">#fff2582a</color>
+</resources>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- the launcher activities of installed apps are listed for the direct routing screen -->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="18" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <!-- a television has no touch screen and no camera, and its launcher lists leanback activities -->
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+    <uses-feature android:name="android.software.leanback" android:required="false" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <application
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:banner="@drawable/banner"
+        android:theme="@style/AppTheme"
+        android:allowBackup="false"
+        android:supportsRtl="true"
+        android:name=".SenkoApp">
+
+        <activity
+            android:name=".HomeActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".SettingsActivity" android:exported="false" />
+        <activity android:name=".ServerListActivity" android:exported="false" />
+        <activity android:name=".StatsActivity" android:exported="false" />
+        <activity android:name=".EditSubscriptionActivity" android:exported="false" />
+        <activity android:name=".ThemesActivity" android:exported="false" />
+        <activity android:name=".ThemeEditActivity" android:exported="false" />
+        <activity android:name=".LogsActivity" android:exported="false" />
+        <activity android:name=".RoutingActivity" android:exported="false" />
+        <activity android:name=".RulesActivity" android:exported="false" />
+        <activity android:name=".ProfileEntriesActivity" android:exported="false" />
+        <activity android:name=".AppRoutingActivity" android:exported="false" />
+        <activity android:name=".AboutActivity" android:exported="false" />
+        <activity android:name=".DevMenuActivity" android:exported="false" />
+        <activity android:name=".DevToolsActivity" android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".QrScanActivity" android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <service
+            android:name=".SenkoVpnService"
+            android:exported="false"
+            android:permission="android.permission.BIND_VPN_SERVICE">
+            <intent-filter>
+                <action android:name="android.net.VpnService" />
+            </intent-filter>
+        </service>
+
+        <!-- android 2.3 to 3.x have no VpnService: this host gets its tun device from the root helper -->
+        <service
+            android:name=".SenkoRootService"
+            android:exported="false" />
+
+        <!-- the tile in the shade, api 24 and later; earlier systems never bind it -->
+        <service
+            android:name=".SenkoTileService"
+            android:exported="true"
+            android:icon="@drawable/ic_tile"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+    </application>
+</manifest>
