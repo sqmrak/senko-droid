@@ -1,0 +1,45 @@
+AmneziaWG could not send or receive data: check the network and System Logs	Не удалось передать данные AmneziaWG. Проверьте сеть и системные логи.	AmneziaWG 无法收发数据。请检查网络和系统日志。
+AmneziaWG received packets that do not match this profile: check the keys and packet settings	Ответ AmneziaWG не соответствует профилю. Проверьте ключи и параметры пакетов.	AmneziaWG 响应与配置不匹配。请检查密钥和数据包设置。
+AmneziaWG server does not answer: check the endpoint, port, keys and whether UDP is blocked	Сервер AmneziaWG не отвечает. Проверьте адрес, порт, ключи и блокировку UDP.	AmneziaWG 服务器无响应。请检查地址、端口、密钥及 UDP 限制。
+REALITY did not accept the connection: check the public key, the short id and the SNI	Не удалось подтвердить сервер REALITY. Проверьте публичный ключ, short ID и SNI.	无法验证 REALITY 服务器。请检查公钥、short ID 和 SNI。
+The tunnel device could not start or stopped: restart Senko and check System Logs	Не удалось запустить туннель или он остановился. Перезапустите Senko и проверьте системные логи.	隧道设备无法启动或已停止。请重启 Senko 并查看系统日志。
+imported 	removed 	refreshed 
+password	пароль	密码
+password and the cipher	пароль и шифр	密码及加密方式
+the TLS handshake with the server failed: check the SNI and the security setting	Не удалось установить защищённое соединение с сервером. Проверьте SNI и режим защиты.	无法与服务器建立 TLS 连接。请检查 SNI 和安全设置。
+the connection check received HTTP %s instead of 204: check the %s and whether the server can reach the check website	Проверка соединения получила HTTP %s вместо ожидаемого ответа. Проверьте %s и доступ сервера к проверочному сайту.	连接检查收到 HTTP %s，未收到预期响应。请检查 %s 及服务器能否访问检测网站。
+the connection was reset during the handshake: check the network and the server settings	Соединение оборвалось при подключении. Проверьте сеть и настройки сервера.	连接在握手时被重置。请检查网络及服务器设置。
+the device clock appears %s days ahead compared with the HTTP check: verify automatic date and time	Возможно, часы устройства спешат на %s дн. по сравнению с HTTP-проверкой. Проверьте автоматическую дату и время.	与 HTTP 检测相比，设备时钟可能快 %s 天。请检查自动日期与时间。
+the device clock appears %s days behind compared with the HTTP check: verify automatic date and time	Возможно, часы устройства отстают на %s дн. по сравнению с HTTP-проверкой. Проверьте автоматическую дату и время.	与 HTTP 检测相比，设备时钟可能慢 %s 天。请检查自动日期与时间。
+the device clock appears %s hours ahead compared with the HTTP check: verify automatic date and time	Возможно, часы устройства спешат на %s ч. по сравнению с HTTP-проверкой. Проверьте автоматическую дату и время.	与 HTTP 检测相比，设备时钟可能快 %s 小时。请检查自动日期与时间。
+the device clock appears %s hours behind compared with the HTTP check: verify automatic date and time	Возможно, часы устройства отстают на %s ч. по сравнению с HTTP-проверкой. Проверьте автоматическую дату и время.	与 HTTP 检测相比，设备时钟可能慢 %s 小时。请检查自动日期与时间。
+the device clock appears %s minutes ahead compared with the HTTP check: verify automatic date and time	Возможно, часы устройства спешат на %s мин. по сравнению с HTTP-проверкой. Проверьте автоматическую дату и время.	与 HTTP 检测相比，设备时钟可能快 %s 分钟。请检查自动日期与时间。
+the device clock appears %s minutes behind compared with the HTTP check: verify automatic date and time	Возможно, часы устройства отстают на %s мин. по сравнению с HTTP-проверкой. Проверьте автоматическую дату и время.	与 HTTP 检测相比，设备时钟可能慢 %s 分钟。请检查自动日期与时间。
+the proxy refused the user name or password	Прокси отклонил имя пользователя или пароль.	代理拒绝了用户名或密码。
+the server answer does not decrypt: check the %s, or this is not a %s server	Не удалось расшифровать ответ сервера. Проверьте %s и что сервер использует %s.	无法解密服务器响应。请检查 %s 及服务器是否使用 %s。
+the server answer is not %s: check the protocol and the port	Ответ сервера не соответствует %s. Проверьте протокол и порт.	服务器响应不符合 %s。请检查协议和端口。
+the server answered HTTP %s instead of opening the transport: check the path and the transport type	Сервер вернул HTTP %s вместо подключения. Проверьте путь и тип транспорта.	服务器返回 HTTP %s，未建立传输连接。请检查路径和传输类型。
+the server answered as a website instead of carrying the request: check the %s	Сервер ответил как обычный сайт. Проверьте %s и настройки прокси.	服务器返回了网站内容。请检查 %s 及代理设置。
+the server answered gRPC status %s: check the service name	Служба gRPC отклонила запрос (статус %s). Проверьте имя службы.	gRPC 服务返回状态 %s。请检查服务名称。
+the server certificate has expired	Срок сертификата сервера истёк по часам устройства. Проверьте дату устройства и сертификат.	按设备时间，服务器证书已过期。请检查设备日期和证书。
+the server certificate is for another name: check the SNI	Сертификат сервера выдан для другого имени. Проверьте SNI.	服务器证书对应另一个域名。请检查 SNI。
+the server certificate is not trusted: it is self-signed or from an unknown issuer	Сертификат сервера не подтверждён доверенным центром. Проверьте сертификат сервера.	服务器证书不受信任。请检查服务器证书及签发机构。
+the server certificate is not valid yet: check the device date and the certificate dates	Сертификат сервера ещё не действует по часам устройства. Проверьте дату устройства и сертификат.	按设备时间，服务器证书尚未生效。请检查设备日期和证书。
+the server closed the connection during the handshake: check the port and the security setting	Сервер закрыл соединение при подключении. Проверьте порт и режим защиты.	服务器在握手时关闭了连接。请检查端口和安全设置。
+the server closed the request without an answer: check the %s	Сервер закрыл соединение без ответа. Проверьте %s.	服务器未响应便关闭连接。请检查 %s。
+the server closed the request without an answer: check the UUID and the device clock	Сервер закрыл соединение без ответа. Проверьте UUID и дату и время устройства.	服务器未响应便关闭连接。请检查 UUID 和设备日期与时间。
+the server did not open the chosen transport: check the path, host and transport type	Сервер не открыл выбранный транспорт. Проверьте путь, Host и тип транспорта.	服务器未建立所选传输连接。请检查路径、Host 和传输类型。
+the server did not return an answer: check the %s; also check whether the server can reach the internet	Сервер не прислал ответ. Проверьте %s и доступ сервера к интернету.	服务器未返回响应。请检查 %s 及服务器的互联网连接。
+the server does not answer: it is off, the address is wrong, or the network blocks it	Сервер не отвечает. Проверьте адрес, доступность сервера и блокировки в сети.	服务器无响应。请检查地址、服务器状态及网络限制。
+the server does not speak TLS on port %s: check the port and the security setting	На порту %s сервер ответил без TLS. Проверьте порт и режим защиты.	服务器端口 %s 未使用 TLS。请检查端口和安全设置。
+the server front answered HTTP %s: check the server and its proxy service	Сервер вернул HTTP %s. Проверьте сервер и его прокси-службу.	服务器返回 HTTP %s。请检查服务器及其代理服务。
+the server has no such gRPC service: check the service name	Сервер не нашёл службу gRPC. Проверьте имя службы.	服务器找不到 gRPC 服务。请检查服务名称。
+the server has no such path (HTTP 404): check the path	Сервер не нашёл указанный путь (HTTP 404). Проверьте путь подключения.	服务器找不到指定路径（HTTP 404）。请检查连接路径。
+the server name does not resolve: check the address and the internet connection	Не удалось найти сервер по имени. Проверьте адрес и доступ к интернету.	无法解析服务器域名。请检查地址和网络连接。
+the server refused access (HTTP 403): check the path and the host	Сервер запретил доступ (HTTP 403). Проверьте путь и Host.	服务器禁止访问（HTTP 403）。请检查路径和 Host。
+the server refused the connection on port %s: check the port and whether the server is running	Сервер отклонил соединение на порту %s. Проверьте порт и запущен ли сервер.	服务器拒绝了端口 %s 的连接。请检查端口及服务器是否运行。
+the server rejected the request (HTTP 400): check the path and the transport type	Сервер отклонил запрос (HTTP 400). Проверьте путь и тип транспорта.	服务器拒绝了请求（HTTP 400）。请检查路径和传输类型。
+this device could not open the connection: restart Senko and check System Logs	Устройство не смогло открыть соединение. Перезапустите Senko и проверьте системные логи.	设备无法建立连接。请重启 Senko 并查看系统日志。
+this device has no network route to the server: check the internet connection	Нет сетевого соединения с сервером. Проверьте доступ к интернету.	设备无法访问服务器。请检查网络连接。
+user name and password	имя пользователя и пароль	用户名和密码
+импортировано	удалено	обновлено

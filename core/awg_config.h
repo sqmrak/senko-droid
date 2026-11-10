@@ -1,0 +1,106 @@
+#ifndef AWG_CONFIG_H
+#define AWG_CONFIG_H
+
+#include <stddef.h>
+#include <stdint.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#define AWG_KEY_LEN           32
+#define AWG_MAX_ADDRESSES      8
+#define AWG_MAX_DNS            8
+#define AWG_MAX_SIGNATURE   4096
+
+typedef struct {
+    uint16_t min;
+    uint16_t max;
+} awg_range16_t;
+
+enum {
+    AWG_TIMER_REKEY_AFTER = 0,
+    AWG_TIMER_REKEY_TIMEOUT,
+    AWG_TIMER_REJECT_AFTER,
+    AWG_TIMER_KEEPALIVE,
+    AWG_TIMER_MAX_ATTEMPTS,
+    AWG_TIMER_COUNT
+};
+
+typedef struct {
+    uint8_t private_key[AWG_KEY_LEN];
+    uint8_t peer_public_key[AWG_KEY_LEN];
+    uint8_t preshared_key[AWG_KEY_LEN];
+    int     has_preshared_key;
+
+    char addresses[AWG_MAX_ADDRESSES][64];
+    size_t address_count;
+    char dns[AWG_MAX_DNS][64];
+    size_t dns_count;
+
+    char endpoint_host[256];
+    uint16_t endpoint_port;
+    /* real providers ship full-tunnel profiles with hundreds of split CIDRs
+       in one line; 512 bytes truncated actual exports as "invalid peer
+       value" long before the field was ever large enough to matter */
+    char allowed_ips[8192];
+    uint16_t mtu;
+    uint16_t persistent_keepalive;
+
+    uint32_t jc;
+    uint32_t jmin;
+    uint32_t jmax;
+    uint32_t padding[4];
+    uint32_t header_min[4];
+    uint32_t header_max[4];
+    awg_range16_t content_padding;
+    awg_range16_t timers[AWG_TIMER_COUNT];
+    int random_trailers;
+    int disable_cookies;
+    /* awg 3.1 header protection: a chacha20 keystream xor over each message,
+       keyed by this and nonced from the s-prefix junk that precedes it */
+    uint8_t header_protection_key[AWG_KEY_LEN];
+    int has_header_protection;
+    /* i1-i5, the special junk packets awg 1.5 sends before the handshake */
+    char signature[5][AWG_MAX_SIGNATURE];
+    /* j1-j3, the controlled junk packets that follow i1-i5 in the same train.
+       awg 2.0 dropped them, so a 2.0 profile simply leaves them empty */
+    char controlled[3][AWG_MAX_SIGNATURE];
+    /* seconds between two emissions of the junk train while a handshake is
+       still unanswered. 0 keeps the single emission awg 1.0 used */
+    uint32_t itime;
+} awg_config_t;
+
+typedef enum {
+    AWG_CFG_OK = 0,
+    AWG_CFG_ERR_ARG = -1,
+    AWG_CFG_ERR_FORMAT = -2,
+    AWG_CFG_ERR_RANGE = -3,
+    AWG_CFG_ERR_KEY = -4,
+    AWG_CFG_ERR_MISSING = -5,
+    AWG_CFG_ERR_SPACE = -6,
+    /* the profile is well formed but asks for a wire feature this build cannot
+       produce, which is not the same as a broken file */
+    AWG_CFG_ERR_UNSUPPORTED = -7
+} awg_cfg_status_t;
+
+void awg_config_init(awg_config_t *cfg);
+int awg_range_pick(awg_range16_t range, uint16_t fallback, uint16_t *out);
+
+/* preserve the complete interface data because awg fields share one profile */
+awg_cfg_status_t awg_config_parse(const char *text, size_t len, awg_config_t *cfg,
+                                  char *reason, size_t reason_cap);
+
+/* keep config-file parsing outside the ui so root owns validation and reads */
+/* 1 when path is a .conf file directly inside the app's SENKO_REL_AWG_DIR, so
+   a request cannot point the engine at another file */
+int awg_config_path_ok(const char *path);
+
+awg_cfg_status_t awg_config_load_file(const char *path, awg_config_t *cfg,
+                                      char *reason, size_t reason_cap);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif

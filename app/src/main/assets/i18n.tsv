@@ -1,0 +1,703 @@
+%d attempts	%d попыток	%d 次
+%d lists missing	Не хватает списков: %d	缺少 %d 个列表
+%d more	ещё %d	还有 %d 项
+%d ms	%d мс	%d 毫秒
+%d not supported	не поддерживается: %d	%d 条不支持
+%d rules	правил: %d	%d 条规则
+%d with a rule	с правилом: %d	%d 个有规则
+%s of %s	%s из %s	%s / %s
+(no log)	(нет лога)	（无日志）
+A live profile cannot be edited	Активный профиль нельзя изменить	正在使用的配置无法编辑
+A port number between 1 and 65535	Номер порта от 1 до 65535	请输入 1 到 65535 之间的端口号
+A rule for an app wins over every domain and address rule. Block wins over direct, and direct over the tunnel.	Правило приложения сильнее любого правила домена и адреса. Блокировка сильнее прямого соединения, а прямое сильнее туннеля.	应用规则优先于所有域名和地址规则。阻止优先于直连，直连优先于隧道。
+ADDRESS	АДРЕС	地址
+APP	ПРИЛОЖЕНИЕ	应用
+About	О приложении	关于
+Accent	Акцент	强调色
+Accent low	Акцент нажатый	强调色底部
+Active tunnel	Активный туннель	当前隧道
+Add	Добавить	添加
+Add a subscription or a server	Добавь подписку или сервер	添加订阅或服务器
+Add dark variant	Добавить тёмный вариант	添加深色版本
+Add server	Добавить сервер	添加服务器
+Add subscription	Добавить подписку	添加订阅
+Addresses	Адреса	地址
+Advanced	Дополнительно	高级
+After a drop or a change of network	После обрыва или смены сети	断线或网络变化后
+All	Все	全部
+All apps	Все приложения	所有应用
+Allow insecure	Разрешить небезопасное	允许不安全连接
+Almost done	Почти готово	即将完成
+Amnezia VPN bundle detected. Export a native AmneziaWG .conf from Share	Обнаружен пакет Amnezia VPN. Экспортируйте нативный файл AmneziaWG .conf через Share	检测到 Amnezia VPN 配置包。请从“分享”导出原生 AmneziaWG .conf
+Amnezia VPN bundle detected. Import a native AmneziaWG .conf file	Обнаружен пакет Amnezia VPN. Импортируйте нативный файл AmneziaWG .conf	检测到 Amnezia VPN 配置包。请导入原生 AmneziaWG .conf 文件
+Amnezia/VLESS Client	Клиент Amnezia/VLESS	Amnezia/VLESS 客户端
+AmneziaWG	AmneziaWG	AmneziaWG
+AmneziaWG DNS	DNS AmneziaWG	AmneziaWG DNS
+AmneziaWG link	Канал AmneziaWG	AmneziaWG 链接
+AmneziaWG profile	Профиль AmneziaWG	AmneziaWG 配置
+AmneziaWG route	Маршрут AmneziaWG	AmneziaWG 路由
+AmneziaWG: check ping	AmneziaWG: проверить пинг	AmneziaWG：检查延迟
+AmneziaWG: edit details	AmneziaWG: изменить	AmneziaWG：编辑详情
+AmneziaWG: refresh	AmneziaWG: обновить	AmneziaWG：刷新
+AmneziaWG: remove profile	AmneziaWG: удалить профиль	AmneziaWG：移除配置
+An IPv4 address, for example 1.1.1.1	Адрес IPv4, например 1.1.1.1	请输入 IPv4 地址，例如 1.1.1.1
+App	Приложение	应用
+Appearance	Оформление	外观
+Applied on the next connect.	Применится при следующем подключении.	下次连接时生效。
+Apply anyway	Всё равно применить	仍然应用
+Apps	Приложения	应用
+Apps and system traffic use the selected profile. Routing needs root, and a jailbreak already provides it.	Приложения и системный трафик идут через выбранный профиль. Для маршрутизации нужен root, и джейлбрейк его уже даёт.	应用和系统流量使用选中的配置。路由需要 root，越狱已经提供了权限。
+Architecture	Архитектура	架构
+Asking the daemon...	Спрашиваю демона...	正在查询守护进程…
+Auto	Авто	自动
+Available servers: %d	Доступно серверов: %d	可用服务器：%d
+Backend	Бэкенд	后端
+Backend forced to	Бэкенд форсирован на	强制后端
+Backend in use	Активный бэкенд	当前后端
+Backend pinned to	Бэкенд закреплён на	固定后端
+Backend, listeners, trace	Бэкенд, слушатели, трассировка	后端、监听器、跟踪
+Backend, tunnel, ports, DNS, rules	Бэкенд, туннель, порты, DNS, правила	后端、隧道、端口、DNS、规则
+Background	Фон	背景
+Background low	Фон снизу	背景底部
+Backup	Резервная копия	备份
+Backup export failed		导出备份失败
+Backup restore failed		恢复备份失败
+Battery	Батарея	电池
+Block	Блокировать	阻止
+Block response	Ответ на блок	阻止响应
+Block wins over direct, direct wins over the tunnel, whatever the order. On iOS 12 and later the tunnel core reads the real domain from the connection; below that the rule is matched when the name is resolved, so an address shared by several sites follows the first name that asked for it.	Блокировка сильнее «напрямую», «напрямую» сильнее туннеля, порядок правил не важен. На iOS 12 и новее ядро туннеля видит настоящий домен соединения; ниже правило применяется в момент разрешения имени, поэтому адрес, общий для нескольких сайтов, идёт по первому запросившему имени.	规则顺序不会改变优先级：阻止优先于直连，直连优先于隧道。iOS 12 及以上版本会从连接中读取实际域名；旧版系统在解析域名时匹配规则，因此多个网站共用的地址会采用首次请求该地址的域名规则。
+Blocked answers	Ответ на заблокированное	已阻止的响应
+Busiest rule	Самое частое правило	命中最多的规则
+By latency	По задержке	按延迟
+By name	По названию	按名称
+Bypass evicted	Вытеснено из обхода	已移除的绕过项
+Bypass evictions	Вытеснено из таблицы обхода	绕过项移除次数
+Bypass table	Таблица обхода	绕过表
+CHECK	ПРОВЕРКА	检查
+CHOSEN	ВЫБРАНО	已选择
+CIPHER	ШИФР	加密方式
+CONNECTION	ПОДКЛЮЧЕНИЕ	连接
+Camera access could not be requested	Не удалось запросить доступ к камере	无法请求相机权限
+Camera access is disabled\nEnable it in Settings > Privacy > Camera	Доступ к камере отключён\nРазрешите его в Настройки > Конфиденциальность > Камера	相机权限已关闭\n请在设置 > 隐私 > 相机中开启
+Cancel	Отмена	取消
+Catalog	Каталог	服务器目录
+Catalog and rules are kept.	Каталог и правила остаются.	服务器目录和规则已保留。
+Catalog is kept.	Каталог остаётся.	服务器目录已保留。
+Cell	Ячейка	列表项
+Cell low	Ячейка снизу	列表项底部
+Check	Проверить	检查
+Check ping	Проверить профиль	检查 Ping
+Check servers	Проверить серверы	检查服务器
+Checking		检查中
+Checking TCP	Проверка TCP	正在检查 TCP
+Checking connection	Проверка подключения	正在检查连接
+Checking package	Проверка пакета	正在检查软件包
+Checking server	Проверка сервера	正在检查服务器
+Checking tunnel	Проверка туннеля	正在检查隧道
+Checks	Проверки	检查
+Chinese		中文
+Choose a Senko .deb package	Выбрать пакет Senko .deb	选择 Senko .deb 软件包
+Choose a server	Выбор сервера	选择服务器
+Choose how each app is routed	Выберите маршрут для каждого приложения	为每个应用选择路由
+Chrome	Панели	导航栏
+Chrome low	Панели снизу	导航栏底部
+Classic	Классика	经典
+Clear	Очистить	清除
+Close	Закрыть	关闭
+Compatibility	Совместимость	兼容性
+Complete	Готово	完成
+Config file	Файл конфигурации	配置文件
+Configuration backup	Резервная копия	配置备份
+Configuration restored	Конфигурация восстановлена	配置已恢复
+Connect	Подключить	连接
+Connect at startup	Подключаться при старте	启动时连接
+Connect hook only	Только connect-хук	仅连接钩子
+Connected	Подключено	已连接
+Connected for	На связи	连接时长
+Connecting	Подключение	连接中
+Connection failed	Соединение не установлено	连接失败
+Console	Консоль	控制台
+Contact support	Связаться с поддержкой	联系支持
+Continue	Продолжить	继续
+Copied in full.	Скопировано целиком.	已完整复制。
+Copied to the clipboard.	Скопировано в буфер.	已复制到剪贴板。
+Copy	Копировать	复制
+Copy current theme	Копировать текущую тему	复制当前主题
+Corners	Скругление	圆角
+Could not connect to the server. Check the address, network, and server availability.	Не удалось подключиться к серверу. Проверьте адрес, сеть и доступность сервера.	无法连接服务器。请检查地址、网络和服务器状态。
+Could not create theme	Не удалось создать тему	无法创建主题
+Could not read the file	Не удалось прочитать файл	无法读取文件
+Could not serialize theme	Не удалось сохранить тему в файл	无法编码主题
+Could not stage backup		无法暂存备份
+Could not write to Documents	Не удалось записать в Documents	无法写入 Documents
+Crash and launch log	Лог падения и запуска	崩溃与启动日志
+Crash and launch report	Отчёт о падении и запуске	崩溃与启动报告
+Crash log, safe mode, device id, bundle	Лог падения, safe mode, id устройства, файл	崩溃日志、安全模式、设备 ID、诊断包
+Credits	Благодарности	致谢
+Custom	Пользовательские	自定义
+Custom theme limit reached	Достигнут предел числа своих тем	自定义主题数量已达上限
+DAEMON	ДЕМОН	守护进程
+DARK COLORS	ТЁМНЫЕ ЦВЕТА	深色配色
+DEVELOPER	РАЗРАБОТЧИКУ	开发者
+DEVICE	УСТРОЙСТВО	设备
+DEVICE ID	ID УСТРОЙСТВА	设备 ID
+DIAGNOSTICS	ДИАГНОСТИКА	诊断
+DNS	DNS	DNS
+DNS cache	Кэш DNS	DNS 缓存
+DNS port	Порт DNS	DNS 端口
+DNS queries	DNS-запросы	DNS 查询
+DNS settings apply the next time the tunnel comes up. The SOCKS port applies when the daemon restarts.	Настройки DNS применяются при следующем подъёме туннеля. Порт SOCKS - при перезапуске демона.	DNS 设置将在下次建立隧道时生效。SOCKS 端口将在守护进程重启后生效。
+Daemon is unreachable	Демон не отвечает	无法连接守护进程
+Daemon pid	PID демона	守护进程 PID
+Daemon uptime	Демон работает	守护进程运行时间
+Dark	Тёмная	深色
+Dark / Light applies to the selected style. Choice is stored on device.	Тёмная или светлая тема зависит от выбранного стиля. Выбор сохраняется на устройстве	深色和浅色模式应用于所选风格。设置保存在设备上。
+Default	По умолчанию	默认
+Delete	Удалить	删除
+Delete all rules	Удалить все правила	删除所有规则
+Delete all servers	Удалить все серверы	删除所有服务器
+Delete theme	Удалить тему	删除主题
+Delete theme?	Удалить тему?	删除主题？
+Description	Описание	描述
+Developer	Разработчик	开发者
+Developer settings	Настройки разработчика	开发者设置
+Developer settings are now visible in Settings. Tap the section heading five times to hide them again.	Настройки разработчика теперь видны в настройках. Чтобы снова скрыть их, пять раз нажмите на заголовок раздела.	开发者设置现已显示在设置中。点击该区域标题五次即可再次隐藏。
+Device	Устройство	设备
+Device ID (tap to copy)	ID устройства (нажмите, чтобы скопировать)	设备 ID（点击复制）
+Device ID copied	ID устройства скопирован	设备 ID 已复制
+Device gating	Привязка к устройству	设备限制
+Device id	ID устройства	设备 ID
+Device id file	Файл id устройства	设备 ID 文件
+Device uptime	Устройство работает	设备运行时间
+Diagnostics bundle	Файл диагностики	诊断包
+Dial the selected server after a reboot	Поднимать выбранный сервер после перезагрузки	重启后连接选中的服务器
+Direct	Напрямую	直连
+Direct addresses	Прямые адреса	直连地址
+Disconnect	Отключить	断开连接
+Disconnect first	Сначала отключитесь	请先断开连接
+Disconnected	Отключено	未连接
+Domain and subdomains	Домен и поддомены	域名及子域名
+Domains and addresses	Домены и адреса	域名和地址
+Done	Готово	完成
+Done reordering	Закончить перестановку	完成排序
+Done.	Готово.	已完成。
+Download	Загрузка	下载
+Download speed	Скорость загрузки	下载速度
+Downloaded	Получено	下载
+Downloading...	Загрузка...	正在下载...
+Dropped packets	Отброшенные пакеты	丢弃的数据包
+Duplicates	Дубли	重复项
+Edit	Изменить	编辑
+Edit details	Изменить параметры	编辑详情
+Edit selected server	Изменить выбранный сервер	编辑选中的服务器
+Edit server	Изменить сервер	编辑服务器
+Editing	Редактируем	正在编辑
+Egress address	Исходящий адрес	出口地址
+Egress interface	Исходящий интерфейс	出口接口
+Emoji artwork	Эмодзи	表情图案
+Empty manual list	Пустой список ручных серверов	清空手动列表
+Encrypted subscription	Зашифрованная подписка	加密订阅
+English	Английский	English
+Enter	Войти	输入
+Entries marked as not supported (regexp, ext) are skipped. A name that is not written as domain:, full:, keyword: or geosite: matches as part of a name.	Записи с пометкой «не поддерживается» (regexp, ext) пропускаются. Имя без domain:, full:, keyword: или geosite: совпадает как часть имени.	标记为不支持的条目（regexp、ext）会被跳过。未用 domain:、full:、keyword: 或 geosite: 写出的名称按名称的一部分匹配。
+Error	Ошибка	错误
+Every %s	Каждые %s	每 %s
+Every server in the Manual group is removed. Subscriptions are not touched.	Все серверы из группы «Вручную» будут удалены. Подписки не затрагиваются.	将删除手动分组中的所有服务器，不会修改订阅。
+Every server in this content is already saved.	Все серверы из этого содержимого уже сохранены.	此内容中的所有服务器均已保存。
+Everything goes through the tunnel, apart from your own rules	Всё идёт через туннель, кроме ваших правил	除您自己的规则外，所有流量都经隧道
+Exact domain	Точный домен	精确域名
+Expired	Срок действия истёк	已过期
+Expires	Действует до	到期
+Export backup	Экспорт резервной копии	导出备份
+Export configuration	Экспорт конфигурации	导出配置
+Export debug bundle	Экспорт debug bundle	导出调试包
+Export failed	Не удалось экспортировать	导出失败
+Export to Documents	Экспорт в Documents	导出到 Documents
+FINGERPRINT	ОТПЕЧАТОК	指纹
+FIREWALL	ФАЙРВОЛ	防火墙
+FLOW	FLOW	流控
+FORCE	ФОРС	强制
+FORCED	ФОРСИРОВАНО	已强制
+FPS overlay	Оверлей FPS	FPS 浮窗
+Failed	Ошибка	失败
+Failed launches	Неудачных запусков	启动失败次数
+Failed: %s	Ошибка: %s	失败：%s
+Falling snow	Падающий снег	飘落的雪花
+Fastest server	Лучший сервер	最快的服务器
+Felt	Подложка	列表背景
+Finishing	Завершение	正在完成
+Five taps on this heading hide the section again.	Пять тапов по этому заголовку убирают раздел.	点击此标题五次即可再次隐藏该区域。
+Flat	Плоское	扁平
+Flow	Flow	流控
+Flush	Сбросить	清空
+Flush DNS cache	Сбросить кэш DNS	清空 DNS 缓存
+Flush the DNS cache	Сбросить кэш DNS	清空 DNS 缓存
+For example 10.0.0.0/8	Например 10.0.0.0/8	例如 10.0.0.0/8
+For example example.com	Например example.com	例如 example.com
+For example googlevideo	Например googlevideo	例如 googlevideo
+Force	Форс	强制
+Forget direct addresses	Забыть прямые адреса	清除直连地址
+Free memory	Свободная память	可用内存
+GENERAL	ОБЩИЕ	常规
+Gbit/s	Гбит/с	Gbit/s
+Geo data	Гео-данные	地理数据
+Geoip list	Список geoip	geoip 列表
+Geosite list	Список geosite	geosite 列表
+Glass	Стекло	玻璃
+HWID requires a Cookie request header	HWID требует заголовок Cookie	HWID 需要 Cookie 请求头
+Header: value	Заголовок: значение	请求头：值
+Host	Адрес	地址
+How it works	Как это работает	工作方式
+IP range	Диапазон адресов	IP 网段
+Ignore device gating	Игнорировать привязку к устройству	忽略设备限制
+Import		导入
+Import failed	Не удалось импортировать	导入失败
+Import file	Импорт файла	导入文件
+Import from Documents	Импорт из Documents	从 Documents 导入
+Import from file	Импорт из файла	从文件导入
+Import theme	Импорт темы	导入主题
+Install failed	Ошибка установки	安装失败
+Installing	Установка	正在安装
+Issue	Выдать	问题
+Jailbreak	Джейлбрейк	越狱
+Jailbreak root	Корень джейлбрейка	越狱根目录
+Kbit/s	Кбит/с	Kbit/s
+Keyword	Ключевое слово	关键词
+LAUNCH	ЗАПУСК	启动
+LIGHT COLORS	СВЕТЛЫЕ ЦВЕТА	浅色配色
+LISTENERS AND DNS	СЛУШАТЕЛИ И DNS	监听器与 DNS
+LIVE	СЕЙЧАС	实时
+Language	Язык	语言
+Last TCP error	Последняя ошибка TCP	上次 TCP 错误
+Last UDP error	Последняя ошибка UDP	上次 UDP 错误
+Last backend error	Последняя ошибка бэкенда	上次后端错误
+Latency	Задержка	延迟
+Leave safe mode	Выйти из safe mode	退出安全模式
+Light	Светлая	浅色
+Limit	Лимит	上限
+Lines: %d	Строк: %d	行数：%d
+Link	Ссылка	链接
+Links	Ссылки	链接
+Live connections	Живых соединений	当前连接数
+Loading logs...	Загрузка логов...	正在加载日志...
+Loading servers and subscriptions...	Загрузка серверов и подписок...	正在加载服务器和订阅...
+Local DNS port	Локальный порт DNS	本地 DNS 端口
+Local proxy	Локальный прокси	本地代理
+Long names	Длинные названия	长名称
+Long names, duplicates and an empty manual list		长名称、重复项和空的手动列表
+Look	Вид	外观
+Looking for the fastest server	Ищу самый быстрый сервер	正在寻找最快的服务器
+Main	Основные	常规
+Manual	Вручную	手动
+Manually added profiles only	Только добавленные вручную профили	仅手动添加的配置
+Mbit/s	Мбит/с	Mbit/s
+Mode	Режим	模式
+Model	Модель	型号
+NAME	ИМЯ	名称
+Name	Название	名称
+Names	Имена	名称
+New device id	Новый id устройства	生成新设备 ID
+New theme	Новая тема	新建主题
+No app fault report	Отчётов о сбоях нет	没有应用崩溃报告
+No apps found.	Приложения не найдены.	未找到应用。
+No camera available	Камера недоступна	没有可用的相机
+No configuration is selected. Pick a server first.	Ни одна конфигурация не выбрана. Сначала выберите сервер.	尚未选择配置。请先选择服务器。
+No daemon logs available	Логи демона недоступны	没有可用的 daemon 日志
+No rules yet	Правил пока нет	暂无规则
+No rules: everything goes through the tunnel. Add one with the plus button.	Правил нет: весь трафик идёт через туннель. Добавьте правило кнопкой «плюс».	没有规则：所有流量都经过隧道。点击加号添加规则。
+No server Senko can run was found in this content.	В этом содержимом нет ни одного сервера, который Senko может запустить.	此内容中没有 Senko 可用的服务器。
+No server in the catalog	В каталоге нет серверов	目录中没有服务器
+No server selected	Сервер не выбран	未选择服务器
+No servers	Нет серверов	没有服务器
+No servers in the catalog.	В каталоге нет серверов.	目录中没有服务器。
+No servers yet	Серверов пока нет	还没有服务器
+No subscription has sent a routing profile. A happ panel sends one in its response, and it shows up here after the next refresh.	Ни одна подписка не прислала профиль маршрутизации. Панель happ присылает его в ответе, и он появится здесь после следующего обновления.	尚无订阅发送路由配置。happ 面板会在响应中发送，下次刷新后会显示在这里。
+None	Нет	无
+Not a Senko theme file	Это не файл темы Senko	不是 Senko 主题文件
+Not a senko backup	Это не резервная копия senko	不是 Senko 备份文件
+Not downloaded	Не загружено	尚未下载
+Not provided	Нет данных	未提供
+Not supported, skipped	Не поддерживается, пропущено	不支持，已跳过
+OFF	ВЫКЛ	关闭
+OK	ОК	确定
+ON	ВКЛ	开启
+Off	Выкл	关闭
+Off from the next launch.	Выключен со следующего запуска.	下次启动时关闭。
+Offline	Неактивно	离线
+Offline low	Неактивно снизу	离线底部
+Online	Активно	在线
+Online low	Активно снизу	在线底部
+Only inside the same section, fastest first	Только внутри своего раздела, сначала быстрые	仅在同一分组内，优先最快的服务器
+Only manually added servers are removed.	Удаляются только добавленные вручную серверы.	只会删除手动添加的服务器。
+PASSWORD	ПАРОЛЬ	密码
+PATH	ПУТЬ	路径
+PATHS	ПУТИ	路径
+PORT	ПОРТ	端口
+PROCESSES	ПРОЦЕССЫ	进程
+PROTOCOL	ПРОТОКОЛ	协议
+Packets	Пакеты	数据包
+Paste	Вставить	粘贴
+Paste from clipboard	Вставить из буфера	从剪贴板粘贴
+Ping	Пинг	Ping
+Ping All	Проверить	检查全部延迟
+Ping complete	Пинг завершён	Ping 完成
+Play a short meow on every button tap.	Проигрывать короткий meow при каждом нажатии	每次点击按钮时播放短猫叫声。
+Play a short ouch on every button tap.	Проигрывать короткий ouch при каждом нажатии	每次点击按钮时播放短音效。
+Preparing package	Подготовка пакета	正在准备软件包
+Profile entries	Записи профиля	配置条目
+Profile handshake	Рукопожатие профиля	配置握手
+Profiles come from your subscriptions. A change applies the next time the tunnel connects.	Профили приходят из ваших подписок. Изменение вступит в силу при следующем подключении туннеля.	配置来自您的订阅。更改将在下次连接隧道时生效。
+Protocol	Протокол	协议
+QR code	QR-код	二维码
+QR code is empty or unreadable	QR-код пуст или не читается	二维码为空或无法读取
+QR code not detected\nfill the frame with the code\nand hold the phone still	QR-код не обнаружен\nзаполните кадр кодом\nи держите телефон неподвижно	未检测到二维码\n请将二维码放入画面中央\n并保持设备稳定
+Quick connect	Быстрое подключение	快速连接
+REMOVE	УДАЛЕНИЕ	移除
+Reading the app list...	Чтение списка приложений...	正在读取应用列表...
+Reading the profile from the daemon...	Чтение профиля из демона...	正在从守护进程读取配置...
+Reading the rules from the daemon...	Читаю правила у демона...	正在从守护进程读取规则…
+Real delay	Реальная задержка	真实延迟
+Reconnect attempts	Попыток переподключения	重连次数
+Reconnect automatically	Переподключаться автоматически	自动重连
+Redial	Перенабор	重新拨号
+Redirect port	Порт перенаправления	重定向端口
+Refresh	Обновить	刷新
+Refresh now	Обновить сейчас	立即刷新
+Refresh the subscription to change it	Обновите подписку, чтобы изменить её	刷新订阅以更新此值
+Refreshing subscriptions	Обновление подписок	正在刷新订阅
+Remaining	Осталось	剩余
+Remove	Удалить	移除
+Remove vless-core	Удалить vless-core	卸载 vless-core
+Removing vless-core...	Удаляю vless-core...	正在卸载 vless-core...
+Reorder manual servers	Переставить свои серверы	调整手动服务器顺序
+Replace	Заменить	替换
+Replace configuration?	Заменить конфигурацию?	替换配置？
+Request header	Заголовок запроса	请求头
+Rescue	Аварийный раздел	恢复
+Reset	Сбросить	重置
+Reset settings	Сбросить настройки	重置设置
+Restarting senkod	Перезапуск senkod	正在重启 senkod
+Restore backup	Восстановить резервную копию	恢复备份
+Restore configuration	Восстановить конфигурацию	恢复配置
+Result	Результат	结果
+Routing	Маршрутизация	路由
+Routing profile	Профиль маршрутизации	路由配置
+Routing rules	Правила маршрутизации	路由规则
+Rule 2	Правило 2	规则 2
+Rule 3	Правило 3	规则 3
+Rule hits	Срабатывания правил	规则命中次数
+Rule verdicts	Решения правил	规则结果
+Rules	Правила	规则
+Run	Запустить	运行
+Running dpkg --install	Выполнение dpkg --install	正在运行 dpkg --install
+Running...	Идёт проверка...	运行中…
+Russian	Русский	Русский
+Russian/English	Русский/Английский	俄语/英语
+SERVER	СЕРВЕР	服务器
+SNI	SNI	SNI
+SOCKS bound to	SOCKS слушает	SOCKS 绑定地址
+SOCKS is localhost-only by default. socks_public=1 in config opens it to the LAN.	SOCKS по умолчанию доступен только локально. socks_public=1 в конфигурации открывает его для сети	SOCKS 默认仅本机可用。在配置中设置 socks_public=1 可供局域网访问。
+SOCKS on 0.0.0.0	SOCKS на 0.0.0.0	在 0.0.0.0 上监听 SOCKS
+SOCKS port	Порт SOCKS	SOCKS 端口
+STAGES	СТАДИИ	阶段
+STYLE	СТИЛЬ	风格
+SUBSCRIPTIONS	ПОДПИСКИ	订阅
+Safe mode	Безопасный режим	安全模式
+Safe mode next launch	Safe mode при следующем запуске	下次启动进入安全模式
+Save	Сохранить	保存
+Save a config file to Documents	Сохранить файл конфигурации в Documents	将配置文件保存到 Documents
+Saved to Documents/senko-backup.senko	Сохранено в Documents/senko-backup.senko	已保存到 Documents/senko-backup.senko
+Scan QR	Сканировать QR	扫描二维码
+Scan native config	Сканировать конфигурацию	扫描原生配置
+Search a country or a city	Поиск страны или города	搜索国家或城市
+Search apps	Поиск приложений	搜索应用
+Search logs	Поиск по журналу	搜索日志
+Second busiest rule	Второе по частоте правило	命中第二多的规则
+Security	Защита	安全
+See /tmp/senko-update.log	См. /tmp/senko-update.log	查看 /tmp/senko-update.log
+Selected server	Выбранный сервер	选中的服务器
+Send HWID in Cookie	Отправлять HWID в cookie	在 Cookie 中发送 HWID
+Send a domain or a subnet direct, or block it	Пустить домен или подсеть напрямую, либо заблокировать	让域名或网段直连，或阻止它
+Senko	Сенко :3	Senko
+Senko does not support this protocol	Senko не поддерживает этот протокол	Senko 不支持此协议
+Senko failed to start %d times and is running with the stock theme. The report is in Logs.		Senko 连续 %d 次启动失败，当前使用默认主题。报告位于日志页面。
+Senko is happy now :3	Сенко снова счастлива :3	仙狐又开心了 :3
+Senko resident	Senko занимает	Senko 常驻内存
+Senko-core	senko-core	Senko-core
+Senko-core eligible	senko-core подходит	可使用 Senko-core
+Senko-core usable	senko-core подходит	Senko-core 可用
+Server	Сервер	服务器
+Session	Сеанс	会话
+Session trace	Трассировка сессий	会话跟踪
+Settings	Настройки	设置
+Shadowsocks	Shadowsocks	Shadowsocks
+Share	Поделиться	分享
+Show tunnel routes	Показать маршруты туннеля	显示隧道路由
+Showing the first %d of %d entries. 	Показаны первые %d из %d записей. 	显示前 %d 条，共 %d 条。
+Sort servers	Сортировка серверов	服务器排序
+Source	Источник	来源
+Special thanks	Особая благодарность	特别感谢
+Split tunneling	Раздельное туннелирование	分流
+Sponsors	Спонсоры	赞助者
+Staged probes and the tunnel routes	Пробы по стадиям и маршруты туннеля	分阶段检测和隧道路由
+Starting	Запуск	正在启动
+Starting install helper	Запуск установщика	正在启动安装助手
+Starting services	Запуск служб	正在启动服务
+State	Состояние	状态
+Statistics	Статистика	统计
+Status	Состояние	状态
+Status bar hook	Хук строки состояния	状态栏钩子
+Stock theme, no glass, no decor. Your theme stays on disk.	Стоковая тема, без стекла и декора. Ваша тема останется на диске.	使用默认主题，不显示玻璃与装饰效果。原主题仍保存在设备上。
+Stopping senkod	Остановка senkod	正在停止 senkod
+Stopping services	Остановка служб	正在停止服务
+Stored order	Как сохранено	保存的顺序
+Style	Стиль	风格
+Subscription	Подписка	订阅
+Subscription URL	URL подписки	订阅 URL
+Subscription details	Данные подписки	订阅详情
+Subscription profile	Профиль подписки	订阅配置
+Subscriptions	Подписки	订阅
+Substrate directory	Каталог Substrate	Substrate 目录
+System Logs	Системные логи	系统日志
+System log	Системный лог	系统日志
+TCP flows	TCP-потоки	TCP 连接流
+TCP latency	Задержка TCP	TCP 延迟
+TCP to the node	TCP до узла	连接节点的 TCP
+TCP traffic	TCP-трафик	TCP 流量
+TLS compatibility hook	Хук совместимости TLS	TLS 兼容钩子
+TLS mode	Режим TLS	TLS 模式
+Talk to the control socket without ssh	Говорить с управляющим сокетом без ssh	无需 SSH 即可访问控制套接字
+Tap Close when you are ready.	Нажмите «Закрыть», когда будете готовы	准备好后点击“关闭”。
+Tap to connect	Нажми, чтобы подключиться	点击连接
+Tap to open the list	Нажми, чтобы открыть список	点击打开列表
+Test fixtures	Тестовые данные	测试数据
+Testers	Тестировали	测试者
+Text	Текст	文字
+Text muted	Текст приглушённый	次要文字
+The Happ crypt5 bundle on this page could not be opened. It is either damaged or sealed with a key this build does not carry.	Бандл Happ crypt5 на этой странице не открылся: он либо повреждён, либо запечатан ключом, которого нет в этой сборке.	无法打开此页面的 Happ crypt5 配置包。文件可能损坏，或使用了当前版本没有的密钥。
+The Senko service is not responding. Restart it and try again.	Служба Senko не отвечает. Перезапустите её и повторите попытку.	Senko 服务没有响应。请重启后重试。
+The clipboard is empty.	Буфер обмена пуст.	剪贴板为空。
+The connect hook could not start. Check that senkotlsfix is installed, or pick another backend.	Connect-хук не запустился. Проверьте, что senkotlsfix установлен, или выберите другой бэкенд.	连接钩子无法启动。请检查是否已安装 senkotlsfix，或选择其他后端。
+The connection attempt timed out. Check the network and try another server.	Время ожидания подключения истекло. Проверьте сеть и попробуйте другой сервер.	连接超时。请检查网络并尝试其他服务器。
+The custom theme limit is reached.	Достигнут предел числа своих тем.	自定义主题数量已达上限。
+The daemon is not answering, so these cannot be read or changed.	Демон не отвечает, прочитать и изменить их нельзя.	守护进程没有响应，因此无法读取或更改这些设置。
+The daemon runs these on its own, with the app closed.	Демон выполняет это сам, при закрытом приложении.	即使应用关闭，守护进程也会自动执行这些操作。
+The file is empty or could not be read.	Файл пуст или его не удалось прочитать.	文件为空或无法读取。
+The imported backup will replace all current servers and subscriptions.	Импортированная копия заменит все текущие серверы и подписки.	导入的备份将替换当前所有服务器和订阅。
+The local proxy could not start. Restart Senko and check that another copy is not running.	Не удалось запустить локальный прокси. Перезапустите Senko и проверьте, что другая копия не запущена.	本地代理无法启动。请重启 Senko，并检查是否已有另一个实例正在运行。
+The next launch runs in safe mode.	Следующий запуск пройдёт в safe mode.	下次启动将进入安全模式。
+The old id is gone for good.	Старый id пропадёт навсегда.	旧设备 ID 已永久删除。
+The profile names geosite and geoip lists. They are downloaded once and kept for a week.	Профиль ссылается на списки geosite и geoip. Они скачиваются один раз и хранятся неделю.	配置引用了 geosite 和 geoip 列表。它们只下载一次，并保留一周。
+The report is on the clipboard.	Отчёт скопирован в буфер.	报告已复制到剪贴板。
+The server address is invalid, unsafe, or cannot be resolved.	Адрес сервера некорректен, небезопасен или не определяется через DNS.	服务器地址无效、不安全或无法解析。
+The server link has an invalid UUID. Import the link again from its source.	В ссылке сервера неверный UUID. Импортируйте ссылку заново из источника.	服务器链接中的 UUID 无效。请从来源重新导入链接。
+The server name could not be resolved. Check the internet connection and server address.	Не удалось найти сервер по имени. Проверьте интернет-соединение и адрес сервера.	无法解析服务器域名。请检查网络连接和服务器地址。
+The server port is reachable, but the profile could not complete a real connection. Check its UUID or password, security, SNI, and transport settings.	Порт сервера доступен, но профиль не смог установить настоящее соединение. Проверьте UUID или пароль, защиту, SNI и транспорт.	服务器端口可访问，但配置无法完成实际连接。请检查 UUID 或密码、安全设置、SNI 和传输设置。
+The subscription refused this device.	Подписка отклонила это устройство.	订阅拒绝此设备。
+The tunnel could not be opened. Check the server settings, key, and selected transport.	Не удалось открыть туннель. Проверьте параметры сервера, ключ и выбранный транспорт.	无法打开隧道。请检查服务器设置、密钥和传输方式。
+The tunnel could not start. Open System Logs to see whether utun, routes, or the bundled core failed.	Не удалось запустить туннель. Откройте системные логи: там указано, что именно не сработало, utun, маршруты или встроенное ядро.	隧道无法启动。请打开系统日志，查看 utun、路由或内置核心的错误。
+The tunnel could not start. Open System Logs to see whether utun, routes, or the server failed.	Туннель не запустился. Откройте «Системные логи»: там видно, что отказало — utun, маршруты или сервер.	隧道无法启动。请打开系统日志，查看 utun、路由或服务器的错误。
+The tunnel stopped right after it started. Open System Logs for the reason.	Туннель остановился сразу после запуска. Причина — в «Системных логах».	隧道启动后立即停止。请在系统日志中查看原因。
+Theme	Тема	主题
+Theme exported	Тема экспортирована	主题已导出
+Theme file is incomplete	Файл темы неполный	主题文件不完整
+Theme imported	Тема импортирована	主题已导入
+Theme is not a custom theme	Это не пользовательская тема	这不是自定义主题
+Theme name	Название темы	主题名称
+Themes	Темы	主题
+There was nothing to import.	Импортировать нечего.	没有可导入的内容。
+Third busiest rule	Третье по частоте правило	命中第三多的规则
+This URL sends the subscription without TLS. Import it only if you trust this network and provider.		此 URL 未使用 TLS 传输订阅。请仅在信任网络和服务商时导入。
+This address opens a web page instead of a subscription feed. Copy the subscription link the page offers, not the page address.	По этому адресу открывается веб-страница, а не подписка. Скопируйте ссылку на подписку, которую предлагает страница, а не адрес самой страницы.	此地址打开的是网页，而非订阅内容。请复制网页提供的订阅链接，不要复制网页地址。
+This build cannot dial this profile	Эта сборка не умеет подключаться к такому профилю	此版本无法连接该配置
+This device received a link back to the same address instead of a subscription feed. Check device access and ask the provider for the feed URL.	Устройство получило ссылку на тот же адрес вместо списка серверов. Проверьте доступ устройства к подписке и запросите у провайдера ссылку на список.	此设备收到指向同一地址的链接，而不是订阅内容。请检查设备权限，并向服务商索取订阅地址。
+This profile cannot be checked while another profile is connected. Disconnect first.	Нельзя проверить этот профиль, пока подключён другой. Сначала отключитесь.	连接其他配置时无法检查此配置。请先断开连接。
+This server uses a protocol or security mode that Senko does not support.	Этот сервер использует протокол или режим защиты, который Senko не поддерживает.	此服务器使用 Senko 不支持的协议或安全模式。
+This theme will lag on iOS 6/7. Liquid glass is laggy on older device.	Эта тема будет тормозить на iOS 6/7. Liquid glass медленный на старых устройствах	此主题在 iOS 6/7 上可能运行缓慢。旧设备上的玻璃效果性能较低。
+Through the tunnel	Через туннель	通过隧道
+Timeout	Тайм-аут	超时
+Title and URL	Название и URL	标题和 URL
+To use a server add a proxy link or a subscription.	Чтобы пользоваться сервером, добавьте прокси или подписку.	请添加代理链接或订阅以使用服务器。
+Token-authenticated control socket · subscription SSRF protection · secret redaction · real transport checks.	Control socket с токеном · защита подписок от SSRF · скрытие секретов в логах · настоящая проверка транспорта.	带令牌认证的控制 socket · 防止订阅 SSRF · 日志隐藏密钥 · 真实传输检查。
+Top rule	Топ правило	命中最多的规则
+Transport	Транспорт	传输
+Transports	Транспорты	传输协议
+Trojan	Trojan	Trojan
+Try another server	Пробовать другой сервер	尝试其他服务器
+Tunnel DNS	DNS туннеля	隧道 DNS
+Tunnel counters	Счётчики туннеля	隧道计数器
+Tunnel routes	Маршруты туннеля	隧道路由
+Tunnel state	Состояние туннеля	隧道状态
+Twemoji by Twitter, Inc. and contributors (CC BY 4.0)	Twemoji от Twitter, Inc. и участников проекта (CC BY 4.0)	Twitter, Inc. 及贡献者的 Twemoji（CC BY 4.0）
+UDP datagrams	UDP-датаграммы	UDP 数据报
+UTILITIES	УТИЛИТЫ	工具
+UUID	UUID	UUID
+Unencrypted subscription		未加密的订阅
+Unknown content type. This is not a server link, a subscription, or a profile Senko can read.	Неизвестный тип контента. Это не ссылка на сервер, не подписка и не профиль, который Senko умеет читать.	未知内容类型。这不是 Senko 可读取的服务器链接、订阅或配置。
+Unknown error	Неизвестная ошибка	未知错误
+Unsupported theme format	Неподдерживаемый формат темы	不支持的主题格式
+Until it works	Пока не получится	直到成功
+Update	Обновить	更新
+Update Senko	Обновить Senko	更新 Senko
+Update geo data	Обновить гео-данные	更新地理数据
+Update subscriptions	Обновлять подписки	更新订阅
+Updated %s	Обновлено: %s	更新于 %s
+Upload	Отдача	上传
+Upload speed	Скорость отдачи	上传速度
+Uploaded	Отправлено	上传
+Upstream DNS	Внешний DNS	上游 DNS
+Uptime	Время работы	运行时间
+Used	Использовано	已使用
+VARIANT	ВАРИАНТ	版本
+Validate, then replace configuration	Проверить и заменить конфигурацию	验证后替换配置
+Value	Значение	值
+Version	Версия	版本
+Vision	Vision	Vision
+WAIT	ЖДИТЕ	请稍候
+Well	Углубление	凹槽
+What should happen to the traffic?	Что делать с трафиком?	如何处理流量？
+What should it match?	По чему сопоставлять?	匹配什么？
+What was chosen	Что выбралось	当前选择
+What was chosen, checks, overrides and rescue	Что выбралось, проверки, переключатели и аварийный раздел	选择项、检查、覆盖和恢复工具
+With a rule	С правилом	已设规则
+Write bundle	Записать файл	写入诊断包
+Zero address	Нулевой адрес	空地址
+all	все	全部
+amneziawg config not found	конфигурация amneziawg не найдена	未找到 AmneziaWG 配置
+amneziawg profile loaded	профиль amneziawg загружен	AmneziaWG 配置已加载
+amneziawg profile removed	профиль amneziawg удалён	AmneziaWG 配置已移除
+amneziawg profile saved	профиль amneziawg сохранён	AmneziaWG 配置已保存
+amneziawg timeout	тайм-аут amneziawg	AmneziaWG 超时
+bars bottom	панели снизу	导航栏底部
+bars top	панели сверху	导航栏顶部
+bit/s	бит/с	bit/s
+cannot open folder	не удалось открыть папку	无法打开文件夹
+checking	проверка	检查中
+checking amneziawg...	проверка amneziawg...	正在检查 AmneziaWG…
+checking daemon...	проверка демона...	正在检查守护进程…
+checking group ping...	проверка пинга группы...	正在检查分组延迟…
+checking ping...	проверка пинга...	正在检查延迟…
+checking server...	проверка сервера...	正在检查服务器…
+choose a .deb package	выберите пакет .deb	请选择 .deb 软件包
+connected	подключено	已连接
+connected button bottom	кнопка подключено, низ	连接按钮底部
+connected button top	кнопка подключено, верх	连接按钮顶部
+connecting	подключение	连接中
+connecting...	подключение...	连接中…
+connection failed	соединение не установлено	连接失败
+copied	скопирована	已复制
+could not read amneziawg config	не удалось прочитать конфигурацию amneziawg	无法读取 AmneziaWG 配置
+could not save amneziawg config	не удалось сохранить конфигурацию amneziawg	无法保存 AmneziaWG 配置
+could not save native AmneziaWG config	не удалось сохранить нативную конфигурацию AmneziaWG	无法保存原生 AmneziaWG 配置
+could not start amneziawg	не удалось запустить amneziawg	无法启动 AmneziaWG
+could not stop amneziawg	не удалось остановить amneziawg	无法停止 AmneziaWG
+could not stop senkod	не удалось остановить senkod	无法停止 senkod
+daemon offline	демон недоступен	daemon 离线
+daemon offline: cannot add	демон недоступен: нельзя добавить	守护进程离线：无法添加
+daemon offline: cannot edit	демон недоступен: нельзя изменить	守护进程离线：无法编辑
+daemon offline: cannot import	демон недоступен: нельзя импортировать	守护进程离线：无法导入
+daemon offline: cannot save header	демон недоступен: нельзя сохранить заголовок	守护进程离线：无法保存请求头
+disconnect to edit	отключитесь для редактирования	请断开连接后编辑
+disconnect to remove	отключитесь для удаления	请断开连接后移除
+disconnect to reorder	отключитесь для изменения порядка	请断开连接后调整顺序
+disconnect to switch	отключитесь для переключения	请断开连接后切换
+disconnect to switch backend	отключитесь для смены режима	请断开连接后切换后端
+disconnected button bottom	кнопка отключено, низ	断开按钮底部
+disconnected button top	кнопка отключено, верх	断开按钮顶部
+empty folder	папка пуста	文件夹为空
+expired	истёк	已过期
+external tlsfix present, senkotlsfix hooks stay off	внешний tlsfix найден, хуки senkotlsfix отключены	检测到外部 tlsfix，保持 senkotlsfix hook 关闭
+failed	ошибка	失败
+fetch failed: daemon offline	не удалось получить данные: демон недоступен	获取失败：守护进程离线
+fetching subscription...	получение подписки...	正在获取订阅…
+file import failed	не удалось импортировать файл	文件导入失败
+flat and transparent	эстетика 2013 года	扁平而通透
+folder	папка	文件夹
+futuristic maximalism of the past	эстетика, опередившая свое время	复古未来的绚丽风格
+group ping complete	проверка пинга группы завершена	分组延迟检查完成
+group profile check complete	проверка профилей группы завершена	分组配置检查完成
+hehehe mita hehehe miside	ыыыыы кепочка ыыыыы мисайд	嘿嘿，米塔来了
+hits	срабатываний	命中次数
+iOS major	Версия iOS	iOS 主版本
+iOS read from	Версия iOS из	iOS 版本来源
+iOS version	Версия iOS	iOS 版本
+iOS version read from	Версия iOS определена по	iOS 版本读取来源
+idle	ожидание	空闲
+install a .deb	установить .deb	安装 .deb 软件包
+install this package over the current version? settings and subscriptions stay in place	установить этот пакет поверх текущей версии? настройки и подписки сохранятся	用此软件包覆盖当前版本？设置和订阅将保留
+invalid amneziawg config	некорректная конфигурация amneziawg	AmneziaWG 配置无效
+invalid native AmneziaWG config	некорректная нативная конфигурация AmneziaWG	原生 AmneziaWG 配置无效
+links and glyphs	ссылки и значки	链接和图标
+list backdrop	фон списка	列表背景
+list inset tint	подложка списка	列表内侧色调
+list reloaded	список обновлён	列表已刷新
+loading	загрузка	加载中
+made on this device	сделана на этом устройстве	在此设备上创建
+manual	вручную	手动
+manual profiles only	только ручные профили	仅手动配置
+manual servers removed	серверы удалены	手动服务器已移除
+meeeeeow :3	самая фембойская тема	喵喵喵 :3
+modern theme	dopamine, palera1n, trollstore и вайб 2021 года	现代主题
+name and url required	нужны название и URL	请填写名称和 URL
+native AmneziaWG config added	нативная конфигурация AmneziaWG добавлена	已添加原生 AmneziaWG 配置
+no answer	нет ответа	无响应
+no readable folders	нет доступных папок	没有可读取的文件夹
+no server answered the check	ни один сервер не ответил на проверку	没有服务器响应检测
+no servers in group	в группе нет серверов	分组中没有服务器
+no servers to ping	нет серверов для проверки	没有可 Ping 的服务器
+none	нет	无
+not available yet	пока недоступен	暂时不可用
+nothing recorded	ничего не записано	没有记录
+passed in %d ms	прошла за %d мс	耗时 %d 毫秒，通过
+paste a link here	вставьте ссылку	在此粘贴链接
+paste a subscription URL	вставьте URL подписки	粘贴订阅 URL
+pick a server first	сначала выберите сервер	请先选择服务器
+ping check complete	проверка пинга завершена	延迟检查完成
+point the camera at a QR code\nserver link, subscription URL\nor a WireGuard / AmneziaWG .conf	наведите камеру на QR-код\nссылка на сервер, URL подписки\nили .conf WireGuard / AmneziaWG	将相机对准二维码\n服务器链接、订阅 URL\n或 WireGuard / AmneziaWG .conf
+pressed accent	акцент при нажатии	按下时的强调色
+primary label	основная надпись	主要文字
+profile check complete	проверка профилей завершена	配置检查完成
+reading content...	чтение содержимого...	正在读取内容…
+refreshing subscription...	обновление подписки...	正在刷新订阅…
+refreshing subscriptions...	обновление подписок...	正在刷新订阅…
+removing manual servers...	удаление серверов...	正在移除手动服务器…
+removing subscription...	удаление подписки...	正在移除订阅…
+rest direct	остальное напрямую	其余直连
+rest through the tunnel	остальное через туннель	其余经隧道
+row bottom	строка снизу	列表项底部
+row top	строка сверху	列表项顶部
+saving subscription...	сохранение подписки...	正在保存订阅…
+secondary label	второстепенная надпись	次要文字
+section moved	раздел перемещён	分组已移动
+senkod + awg combined	senkod + awg вместе	senkod + awg 合并日志
+senkod is missing: reinstall the package	senkod отсутствует: переустановите пакет	缺少 senkod：请重新安装软件包
+senkod is not running and its log is empty	senkod не запущен, его лог пуст	senkod 未运行，日志为空
+senkotlsfix, Safari TLS 1.3 when MobileSubstrate is installed	senkotlsfix для TLS 1.3 в Safari при установленном MobileSubstrate	senkotlsfix，用于 MobileSubstrate 下 Safari TLS 1.3
+server moved	сервер перемещён	服务器已移动
+server ping	пинг сервера	服务器延迟
+server ping timeout	сервер не ответил вовремя	服务器延迟检查超时
+starting amneziawg...	запуск amneziawg...	正在启动 AmneziaWG…
+subscription added	подписка добавлена	订阅已添加
+subscription not found	подписка не найдена	未找到订阅
+subscription pinned	подписка закреплена	订阅已置顶
+subscription removed	подписка удалена	订阅已移除
+subscription saved	подписка сохранена	订阅已保存
+subscription updated	подписка обновлена	订阅已更新
+subscription url has spaces	в URL подписки есть пробелы	订阅 URL 包含空格
+subscriptions refreshed	подписки обновлены	订阅已刷新
+switch timeout	тайм-аут переключения	切换超时
+system TLS, the compatibility hook is not injected	системный TLS, compatibility hook не внедряется	系统 TLS，不注入兼容性 hook
+the daemon did not answer	демон не ответил	守护进程没有响应
+the legacy theme for the legacy community	для выживших на iOS 6 :D	为怀旧社区打造的经典主题
+the senkod launch daemon is missing: reinstall the package	нет задания launchd для senkod: переустановите пакет	缺少 senkod 启动服务：请重新安装软件包
+timeout	тайм-аут	超时
+unavailable	недоступна	不可用
+unknown check type	неизвестный тип проверки	未知检查类型
+unknown error	неизвестная ошибка	未知错误
+unreachable	нет ответа	无法访问
+utun tunnel	Туннель utun	utun 隧道
+validated import	импорт с проверкой	已验证导入内容
+validating native config...	проверка нативной конфигурации...	正在验证原生配置…
+vless-core is still there. Remove it in your package manager.	vless-core всё ещё на месте. Удалите его в менеджере пакетов.	vless-core 仍然存在，请在包管理器中卸载。
+wallpaper bottom	обои снизу	壁纸底部
+wallpaper top	обои сверху	壁纸顶部

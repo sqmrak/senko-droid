@@ -1,0 +1,72 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.senko.droid'
+    // debian's arm64 aapt2 (the only one that runs on 16k page hosts) cannot parse the android-35 resource table
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'com.senko.droid'
+        // the engine is built against the api 9 bionic. VpnService starts at api 14, below it the engine opens a tun device through su
+        minSdk 9
+        // 30 keeps the foreground service rules of android 14 out of the picture
+        targetSdk 30
+        versionCode 1
+        versionName '1.0.0-canary'
+        ndk {
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+        }
+    }
+
+    sourceSets {
+        main {
+            // libsenko.so per abi (and the root helper on the 32 bit ones) and the trust roots, produced by the root Makefile
+            jniLibs.srcDirs = [findProperty('senko.jnilibs') ?: "${rootDir}/build/jniLibs"]
+            assets.srcDirs = ['../build/assets', 'src/main/assets']
+        }
+    }
+
+    lint {
+        // a sideloaded app for old devices, the play store target floor does not apply
+        disable 'ExpiredTargetSdkVersion'
+        // flags and glyphs are looked up by name from the country code or the ios art name, which lint cannot see
+        disable 'UnusedResources'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+}
+
+android.testOptions {
+    unitTests.includeAndroidResources = true
+    unitTests.all {
+        // the jvm test of the engine loads the host build of libsenko, when there is one
+        def hostLibs = System.getenv('SENKODROID_HOST_LIB_DIR') ?: ''
+        systemProperty 'senko.hostLibDir', hostLibs
+        // the framework jars of the screen tests come from a cache directory, see scripts/fetch_robolectric.sh
+        def robolectric = System.getenv('SENKODROID_ROBOLECTRIC') ?: "${rootDir}/../cache/robolectric"
+        systemProperty 'robolectric.dependency.dir', robolectric
+        systemProperty 'robolectric.offline', 'true'
+        if (hostLibs) jvmArgs "-Djava.library.path=${hostLibs}"
+    }
+}
+
+dependencies {
+    // 3.3.3 is the last core built for java 6 bytecode, which dex handles on api 16 without desugaring
+    implementation 'com.google.zxing:core:3.3.3'
+    testImplementation 'junit:junit:4.13.2'
+    // the android.jar the tests compile against only stubs org.json
+    testImplementation 'org.json:json:20231013'
+    // builds every screen on a simulated framework, which finds crashes at construction without a device
+    testImplementation 'org.robolectric:robolectric:4.11.1'
+}

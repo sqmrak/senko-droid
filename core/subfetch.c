@@ -1,0 +1,466 @@
+#define _DEFAULT_SOURCE
+
+#include "subfetch.h"
+#include "url.h"
+#include "http.h"
+#include "b64.h"
+#include "senko_time.h"
+
+#include <arpa/inet.h>
+#include <errno.h>
+#include <poll.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <strings.h>
+#include <sys/time.h>
+#include <unistd.h>
+#include <zlib.h>
+
+/* unpack gzip bodies. a cut body, or one that inflates past cap, keeps what
+   inflated and sets *cut */
+static int maybe_gunzip_body(uint8_t *buf, size_t *len, size_t cap, int *cut) {
+    if (!buf || !len || *len < 10) return 0;
+    if (buf[0] != 0x1f || buf[1] != 0x8b) return 0;
+
+    size_t in_len = *len;
+    uint8_t *out = (uint8_t *)malloc(cap);
+    if (!out) return -1;
+
+    z_stream zs;
+    memset(&zs, 0, sizeof zs);
+    zs.next_in = buf;
+    zs.avail_in = (uInt)in_len;
+    zs.next_out = out;
+    zs.avail_out = (uInt)cap;
+/* use the gzip wrapper */
+    if (inflateInit2(&zs, 16 + MAX_WBITS) != Z_OK) {
+        free(out);
+        return -1;
+    }
+    int ir = inflate(&zs, Z_FINISH);
+    size_t out_len = (size_t)zs.total_out;
+    inflateEnd(&zs);
+    int partial = ir != Z_STREAM_END &&
+                  (ir == Z_OK || ir == Z_BUF_ERROR) && (*cut || out_len == cap);
+    if ((ir != Z_STREAM_END && !partial) || out_len == 0 || out_len > cap) {
+        free(out);
+        return -1;
+    }
+    if (partial) *cut = 1;
+    memcpy(buf, out, out_len);
+    *len = out_len;
+    free(out);
+    fprintf(stderr, "senkod: subfetch gunzip %zu -> %zu\n", in_len, out_len);
+    return 0;
+}
+
+
+
+static uint64_t userinfo_value(const char *value, const char *wanted) {
+    if (!value || !wanted) return 0;
+    const char *p = value;
+    size_t wanted_len = strlen(wanted);
+    while (*p) {
+        while (*p == ' ' || *p == ';' || *p == '\t') ++p;
+        const char *eq = strchr(p, '=');
+        if (!eq) break;
+        /* the value runs to the next ';' or to the end of the header. the end of
+           the header is eq + 1 + strlen(eq + 1); computing it without the +1
+           dropped the last digit of whichever field came last, which turned
+           every expiry timestamp into one decades in the past */
+        const char *end = strchr(eq + 1, ';');
+        if (!end) end = eq + 1 + strlen(eq + 1);
+        size_t key_len = (size_t)(eq - p);
+        while (key_len > 0 && (p[key_len - 1] == ' ' || p[key_len - 1] == '\t'))
+            key_len--;
+        if (key_len == wanted_len && memcmp(p, wanted, wanted_len) == 0) {
+            const char *vs = eq + 1;
+            const char *ve = end;
+            while (vs < ve && (*vs == ' ' || *vs == '\t')) ++vs;
+            /* a panel that pads the last field left a trailing space inside the
+               number, and the whole field was then dropped */
+            while (ve > vs && (ve[-1] == ' ' || ve[-1] == '\t')) --ve;
+            char number[32];
+            size_t n = (size_t)(ve - vs);
+            if (n == 0 || n >= sizeof number) return 0;
+            memcpy(number, vs, n);
+            number[n] = '\0';
+            char *stop = NULL;
+            unsigned long long v = strtoull(number, &stop, 10);
+            return stop == number + n ? (uint64_t)v : 0;
+        }
+        p = *end ? end + 1 : end;
+    }
+    return 0;
+}
+
+/* seconds since the epoch that a subscription can plausibly carry: panels have
+   shipped the expiry in milliseconds, and one shipped days remaining. read
+   literally, both land in 1970 and the list calls a live subscription expired */
+#define SUBFETCH_EXPIRE_MIN 946684800ULL   /* 2000-01-01 */
+#define SUBFETCH_EXPIRE_MAX 253402300799ULL /* 9999-12-31 */
+
+static uint64_t userinfo_expire(const char *value) {
+    uint64_t v = userinfo_value(value, "expire");
+    if (v >= SUBFETCH_EXPIRE_MIN && v <= SUBFETCH_EXPIRE_MAX) return v;
+    if (v / 1000ULL >= SUBFETCH_EXPIRE_MIN && v / 1000ULL <= SUBFETCH_EXPIRE_MAX)
+        return v / 1000ULL;
+    return 0;
+}
+
+#ifdef SENKO_HOST_TEST
+uint64_t subfetch_userinfo_expire_for_test(const char *value) {
+    return userinfo_expire(value);
+}
+
+uint64_t subfetch_userinfo_value_for_test(const char *value, const char *wanted) {
+    return userinfo_value(value, wanted);
+}
+#endif
+
+static void parser_info(const http_parser_t *hp, subfetch_info_t *info);
+
+#ifdef SENKO_HOST_TEST
+void subfetch_parser_info_for_test(const http_parser_t *hp, subfetch_info_t *info) {
+    parser_info(hp, info);
+}
+#endif
+
+static void copy_metadata_text(const char *raw, char *out, size_t cap) {
+    if (!raw || !out || cap == 0) return;
+    out[0] = '\0';
+    if (strncasecmp(raw, "base64:", 7) == 0) {
+        size_t n = 0;
+        if (b64_decode(raw + 7, strlen(raw + 7),
+                       (unsigned char *)out, cap - 1, &n) == 0 && n > 0 &&
+            memchr(out, '\0', n) == NULL) {
+            out[n] = '\0';
+            return;
+        }
+    }
+    snprintf(out, cap, "%s", raw);
+}
+
+static void parser_info(const http_parser_t *hp, subfetch_info_t *info) {
+    if (!hp || !info) return;
+    if (hp->have_subscription_userinfo) {
+        info->expire = userinfo_expire(hp->subscription_userinfo);
+        info->upload = userinfo_value(hp->subscription_userinfo, "upload");
+        info->download = userinfo_value(hp->subscription_userinfo, "download");
+        info->total = userinfo_value(hp->subscription_userinfo, "total");
+    }
+    if (hp->have_subscription_title)
+        copy_metadata_text(hp->subscription_title,
+                           info->title, sizeof info->title);
+    if (hp->have_subscription_description)
+        copy_metadata_text(hp->subscription_description,
+                           info->description, sizeof info->description);
+    if (hp->have_subscription_support_url)
+        snprintf(info->support_url, sizeof info->support_url, "%s",
+                 hp->subscription_support_url);
+    if (hp->have_subscription_web_url)
+        snprintf(info->web_page_url, sizeof info->web_page_url, "%s", hp->subscription_web_url);
+    if (hp->have_announce)
+        copy_metadata_text(hp->announce, info->announce, sizeof info->announce);
+    if (hp->have_update_interval) info->update_hours = hp->update_interval_hours;
+    if (hp->have_refill_date) info->refill_date = hp->refill_date;
+    if (hp->have_routing)
+        snprintf(info->routing, sizeof info->routing, "%s", hp->routing);
+    info->routing_too_long = hp->routing_too_long;
+    if (hp->hwid_rejected) {
+        info->gated = 1;
+        if (hp->have_announce)
+            copy_metadata_text(hp->announce, info->gate_reason,
+                               sizeof info->gate_reason);
+        if (!info->gate_reason[0])
+            snprintf(info->gate_reason, sizeof info->gate_reason,
+                     "the panel refused this device");
+    }
+}
+
+/* wait with a deadline */
+static int wait_io(int fd, int want_write, int64_t deadline, subfetch_info_t *info, int phase) {
+    for (;;) {
+        int64_t left = deadline - senko_now_ms();
+        if (left <= 0) {
+            if (info) {
+                info->timed_out = 1;
+                info->timeout_phase = phase;
+            }
+            return 0;
+        }
+        struct pollfd pfd;
+        pfd.fd = fd;
+        pfd.events = want_write ? POLLOUT : POLLIN;
+        pfd.revents = 0;
+        int r = poll(&pfd, 1, left > 1000 ? 1000 : (int)left);
+        if (r > 0 && pfd.revents) return 1;
+        if (r < 0 && errno != EINTR) return 0;
+    }
+}
+
+/* keep redirect cookies */
+static void cookie_jar_merge(char *jar, size_t cap, const char *add) {
+    if (!jar || !cap || !add || !add[0]) return;
+    if (!jar[0]) {
+        size_t n = strlen(add);
+        if (n + 1 > cap) n = cap - 1;
+        memcpy(jar, add, n);
+        jar[n] = '\0';
+        return;
+    }
+    size_t cur = strlen(jar);
+    size_t n = strlen(add);
+    if (cur + 2 + n + 1 > cap) return;
+    jar[cur++] = ';';
+    jar[cur++] = ' ';
+    memcpy(jar + cur, add, n);
+    jar[cur + n] = '\0';
+}
+
+static int same_origin(const url_t *a, const url_t *b) {
+    return a && b && a->is_https == b->is_https && a->port == b->port &&
+           strcasecmp(a->host, b->host) == 0;
+}
+
+#define SUBFETCH_IDLE_MS 3000
+
+/* fetch one url */
+static subfetch_status_t fetch_once(const subfetch_cfg_t *cfg, const url_t *u,
+                                    uint8_t *body, size_t body_cap, size_t *body_len,
+                                    char *redir, size_t redir_cap, int64_t deadline,
+                                    char *cookie_jar, size_t cookie_cap,
+                                    subfetch_info_t *info) {
+    const transport_vt_t *vt = u->is_https ? cfg->tls : cfg->tcp;
+    if (!vt) return SUBFETCH_ERR_TRANSPORT; /* tls transport is missing */
+
+/* let the dialer resolve: through the tunnel it hands the hostname to socks5
+   and the remote side resolves it. resolving here first broke that for any
+   host the local resolver blocks */
+    int64_t left = deadline - senko_now_ms();
+    if (left < 0) left = 0;
+    int fd = cfg->dial(cfg->dial_ctx, u->host, u->port, (int)left);
+    if (fd < 0) return SUBFETCH_ERR_DIAL;
+
+    transport_tls_cfg_t tcfg;
+    memset(&tcfg, 0, sizeof tcfg);
+    tcfg.sni = u->host; /* use the subscription host */
+
+    void *th = vt->open(fd, &tcfg);
+    if (!th) {
+        fprintf(stderr, "senkod: subscription %s transport setup failed for %s\n",
+                u->is_https ? "tls" : "tcp", u->host);
+        close(fd);
+        return SUBFETCH_ERR_TRANSPORT;
+    }
+
+    const int64_t hard_deadline = deadline + (cfg->progress_extend_ms > 0 ? cfg->progress_extend_ms : 0);
+    http_parser_t hp;
+    http_parser_init(&hp, body, body_cap);
+    if (cfg->sink) http_parser_set_sink(&hp, cfg->sink, cfg->sink_ctx);
+    subfetch_status_t result = SUBFETCH_ERR_HTTP;
+    do {
+        char req[2048]; size_t reqlen = 0;
+        url_status_t built = cfg->accept_gzip && !cfg->sink
+            ? url_build_get_cookie_header_gzip(u, cookie_jar, cfg->request_header,
+                                               req, sizeof req, &reqlen)
+            : url_build_get_cookie_header(u, cookie_jar, cfg->request_header,
+                                          req, sizeof req, &reqlen);
+        if (built != URL_OK) {
+            result = SUBFETCH_ERR_URL; break;
+        }
+        size_t off = 0;
+        int io_ok = 1;
+        while (off < reqlen) {
+            int w = vt->write(th, (const uint8_t *)req + off, reqlen - off);
+            if (w > 0) { off += (size_t)w; continue; }
+            if (w == TRANSPORT_WANT_WRITE) {
+                if (!wait_io(fd, 1, deadline, info, SUBFETCH_PHASE_HANDSHAKE)) { io_ok = 0; break; }
+            } else if (w == TRANSPORT_WANT_READ) {
+                if (!wait_io(fd, 0, deadline, info, SUBFETCH_PHASE_HANDSHAKE)) { io_ok = 0; break; }
+            } else { io_ok = 0; break; }
+        }
+        if (!io_ok) {
+            fprintf(stderr, "senkod: subscription request write failed for %s\n", u->host);
+            result = SUBFETCH_ERR_TRANSPORT;
+            break;
+        }
+
+        uint8_t rb[8192];
+        for (;;) {
+            int n = vt->read(th, rb, sizeof rb);
+            if (n > 0) {
+/* a 1 MB feed over a slow link stalled at the fixed timeout with http 200
+   and half the body: data that is still flowing earns a few more seconds,
+   up to the hard cap */
+                if (hard_deadline > deadline) {
+                    int64_t idle = senko_now_ms() + SUBFETCH_IDLE_MS;
+                    if (idle > hard_deadline) idle = hard_deadline;
+                    if (idle > deadline) deadline = idle;
+                }
+                http_status_t hs = http_parser_feed(&hp, rb, (size_t)n);
+                if (hs == HTTP_DONE) {
+                    if (hp.have_set_cookie && cookie_jar && cookie_cap)
+                        cookie_jar_merge(cookie_jar, cookie_cap, hp.set_cookie);
+                    if (http_parser_is_redirect(&hp)) {
+                        if (!hp.have_location) { result = SUBFETCH_ERR_REDIRECT; break; }
+                        if (url_resolve_redirect(u, hp.location, redir, redir_cap) != URL_OK) {
+                            result = SUBFETCH_ERR_REDIRECT;
+                            break;
+                        }
+                        result = SUBFETCH_ERR_REDIRECT; /* follow the redirect */
+                    } else {
+                        *body_len = hp.body_len;
+                        parser_info(&hp, info);
+                        result = SUBFETCH_OK;
+                    }
+                    break;
+                }
+                if (hs == HTTP_ERR_TOOBIG && hp.body_cut && info) {
+                    *body_len = hp.body_len;
+                    parser_info(&hp, info);
+                    info->body_cut = 1;
+                    result = SUBFETCH_OK;
+                    break;
+                }
+                if (hs == HTTP_ERR_TOOBIG) { result = SUBFETCH_ERR_TOOBIG; break; }
+                if (hs != HTTP_NEED_MORE) { result = SUBFETCH_ERR_HTTP; break; }
+            } else if (n == TRANSPORT_WANT_READ) {
+                if (!wait_io(fd, 0, deadline, info, SUBFETCH_PHASE_RESPONSE)) {
+                    fprintf(stderr, "senkod: subscription response wait failed for %s\n", u->host);
+                    result = SUBFETCH_ERR_TRANSPORT;
+                    break;
+                }
+            } else if (n == TRANSPORT_WANT_WRITE) {
+                if (!wait_io(fd, 1, deadline, info, SUBFETCH_PHASE_RESPONSE)) {
+                    fprintf(stderr, "senkod: subscription response write wait failed for %s\n", u->host);
+                    result = SUBFETCH_ERR_TRANSPORT;
+                    break;
+                }
+            } else if (n == TRANSPORT_EOF) {
+                http_status_t hs = http_parser_eof(&hp);
+                if (hs == HTTP_DONE) {
+                    if (hp.have_set_cookie && cookie_jar && cookie_cap)
+                        cookie_jar_merge(cookie_jar, cookie_cap, hp.set_cookie);
+                    if (http_parser_is_redirect(&hp) && hp.have_location) {
+                        if (url_resolve_redirect(u, hp.location, redir, redir_cap) == URL_OK) {
+                            result = SUBFETCH_ERR_REDIRECT;
+                        } else result = SUBFETCH_ERR_REDIRECT;
+                    } else {
+                        *body_len = hp.body_len;
+                        parser_info(&hp, info);
+                        result = SUBFETCH_OK;
+                    }
+                } else {
+                    result = SUBFETCH_ERR_HTTP;
+                }
+                break;
+            } else {
+                fprintf(stderr, "senkod: subscription response read failed for %s\n", u->host);
+                result = SUBFETCH_ERR_TRANSPORT;
+                break;
+            }
+        }
+    } while (0);
+
+    if (info) {
+        info->received = hp.body_len;
+        if (result != SUBFETCH_OK && result != SUBFETCH_ERR_REDIRECT)
+            info->http_status = hp.status_code;
+    }
+    vt->close(th);
+    close(fd);
+    return result;
+}
+
+subfetch_status_t subfetch_get(const subfetch_cfg_t *cfg, const char *url,
+                               uint8_t *body_buf, size_t body_cap,
+                               size_t *body_len, int timeout_ms) {
+    return subfetch_get_info(cfg, url, body_buf, body_cap, body_len,
+                             timeout_ms, NULL);
+}
+
+subfetch_status_t subfetch_get_info(const subfetch_cfg_t *cfg, const char *url,
+                                    uint8_t *body_buf, size_t body_cap,
+                                    size_t *body_len, int timeout_ms,
+                                    subfetch_info_t *info) {
+    if (!cfg || !cfg->dial || !cfg->tcp || !url || !body_buf || !body_len)
+        return SUBFETCH_ERR_ARG;
+    *body_len = 0;
+    if (info) memset(info, 0, sizeof *info);
+
+    int max_redir = cfg->max_redirects > 0 ? cfg->max_redirects : 5;
+    int64_t deadline = senko_now_ms() + (timeout_ms > 0 ? timeout_ms : 15000);
+
+    char current[HTTP_MAX_LOCATION];
+    size_t ul = strlen(url);
+    if (ul + 1 > sizeof current) return SUBFETCH_ERR_URL;
+    memcpy(current, url, ul + 1);
+
+    url_t origin;
+    if (url_parse(current, &origin) != URL_OK) return SUBFETCH_ERR_URL;
+
+/* carry cookies across redirects */
+    char cookie_jar[512];
+    cookie_jar[0] = '\0';
+
+    for (int hop = 0; hop <= max_redir; ++hop) {
+        url_t u;
+        if (url_parse(current, &u) != URL_OK) return SUBFETCH_ERR_URL;
+        subfetch_cfg_t hop_cfg = *cfg;
+        if (!same_origin(&origin, &u)) hop_cfg.request_header = NULL;
+        char redir[HTTP_MAX_LOCATION];
+        redir[0] = '\0';
+        subfetch_status_t r = fetch_once(&hop_cfg, &u, body_buf, body_cap, body_len,
+                                         redir, sizeof redir, deadline,
+                                         cookie_jar, sizeof cookie_jar, info);
+        if (r == SUBFETCH_OK && cfg->sink) {
+            if (info && info->body_cut) return SUBFETCH_ERR_TOOBIG;
+            return SUBFETCH_OK;
+        }
+        if (r == SUBFETCH_OK) {
+            int cut = info ? info->body_cut : 0;
+            if (maybe_gunzip_body(body_buf, body_len, body_cap, &cut) != 0)
+                return SUBFETCH_ERR_HTTP;
+            if (cut && !info) return SUBFETCH_ERR_TOOBIG;
+            if (info) info->body_cut = cut;
+            return SUBFETCH_OK;
+        }
+        if (r != SUBFETCH_ERR_REDIRECT) return r;
+
+/* require absolute redirects */
+        if (strncmp(redir, "http://", 7) != 0 &&
+            strncmp(redir, "https://", 8) != 0) {
+            return SUBFETCH_ERR_REDIRECT;
+        }
+        size_t rl = strlen(redir);
+        if (rl + 1 > sizeof current) return SUBFETCH_ERR_REDIRECT;
+        url_t next;
+        if (url_parse(redir, &next) != URL_OK || (u.is_https && !next.is_https))
+            return SUBFETCH_ERR_REDIRECT;
+/* cookies are never forwarded to a different scheme, host, or port */
+        if (!same_origin(&u, &next)) cookie_jar[0] = '\0';
+/* reject a redirect that cannot progress */
+        if (strcmp(redir, current) == 0 && !cookie_jar[0])
+            return SUBFETCH_ERR_REDIRECT;
+        memcpy(current, redir, rl + 1);
+    }
+    return SUBFETCH_ERR_REDIRECT; /* redirect limit reached */
+}
+
+static int file_sink(void *ctx, const uint8_t *data, size_t len) {
+    return fwrite(data, 1, len, (FILE *)ctx) == len ? 0 : -1;
+}
+
+subfetch_status_t subfetch_get_file(const subfetch_cfg_t *cfg, const char *url,
+                                    FILE *out, size_t max_bytes, size_t *written,
+                                    int timeout_ms, subfetch_info_t *info) {
+    static uint8_t unused;
+    subfetch_cfg_t sink_cfg;
+    if (!cfg || !out || !written || max_bytes == 0) return SUBFETCH_ERR_ARG;
+    sink_cfg = *cfg;
+    sink_cfg.sink = file_sink;
+    sink_cfg.sink_ctx = out;
+    return subfetch_get_info(&sink_cfg, url, &unused, max_bytes, written, timeout_ms, info);
+}
