@@ -136,11 +136,23 @@ final class Compat {
         ((android.text.ClipboardManager) service).setText(text);
     }
 
-    /** an ongoing notification. Notification.Builder starts at 3.0 and build() at 4.1 */
+    /** a button of a notification, shown from android 4.1 */
+    static final class Action {
+        final String label;
+        final PendingIntent intent;
+
+        Action(String label, PendingIntent intent) {
+            this.label = label;
+            this.intent = intent;
+        }
+    }
+
+    /** an ongoing notification. Notification.Builder starts at 3.0, build() and buttons at 4.1 */
     @SuppressWarnings("deprecation")
-    static Notification ongoing(Context context, String title, String text, int icon, PendingIntent open) {
-        if (android.os.Build.VERSION.SDK_INT >= 16) return Api11.ongoing(context, title, text, icon, open, true);
-        if (android.os.Build.VERSION.SDK_INT >= 11) return Api11.ongoing(context, title, text, icon, open, false);
+    static Notification ongoing(Context context, String title, String text, int icon, PendingIntent open,
+                                Action... actions) {
+        if (android.os.Build.VERSION.SDK_INT >= 16) return Api11.ongoing(context, title, text, icon, open, true, actions);
+        if (android.os.Build.VERSION.SDK_INT >= 11) return Api11.ongoing(context, title, text, icon, open, false, actions);
         Notification note = new Notification(icon, title, System.currentTimeMillis());
         note.flags |= Notification.FLAG_ONGOING_EVENT;
         // setLatestEventInfo left the sdk in android 6, only 2.3 and 3.x reach this line
@@ -171,13 +183,14 @@ final class Compat {
 
         @SuppressWarnings("deprecation")
         static Notification ongoing(Context context, String title, String text, int icon, PendingIntent open,
-                                    boolean build) {
+                                    boolean build, Action[] actions) {
             Notification.Builder builder = new Notification.Builder(context)
                     .setContentTitle(title)
                     .setContentText(text)
                     .setSmallIcon(icon)
                     .setContentIntent(open)
                     .setOngoing(true);
+            if (build) for (Action action : actions) builder.addAction(0, action.label, action.intent);
             return build ? builder.build() : builder.getNotification();
         }
     }

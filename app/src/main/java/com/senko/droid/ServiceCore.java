@@ -26,6 +26,8 @@ import java.io.IOException;
 final class ServiceCore implements EventStream.Listener {
     static final String ACTION_START = "com.senko.droid.action.START";
     static final String ACTION_STOP = "com.senko.droid.action.STOP";
+    static final String ACTION_PAUSE = "com.senko.droid.action.PAUSE";
+    static final String ACTION_RESUME = "com.senko.droid.action.RESUME";
 
     private static final String TAG = "senko";
     private static final String CHANNEL = "senko";
@@ -75,6 +77,8 @@ final class ServiceCore implements EventStream.Listener {
     private volatile boolean tunnelOpen;
     private EventStream events;
     private boolean foreground;
+    // the user paused from the notification: the tunnel is down, the notification stays with a start button
+    private boolean paused;
 
     ServiceCore(Service service, EngineHost host) {
         this.service = service;
@@ -109,10 +113,36 @@ final class ServiceCore implements EventStream.Listener {
             service.stopSelf();
             return Service.START_NOT_STICKY;
         }
+        if (intent != null && ACTION_PAUSE.equals(intent.getAction())) {
+            pause();
+            return Service.START_STICKY;
+        }
+        if (intent != null && ACTION_RESUME.equals(intent.getAction())) {
+            resume();
+            return Service.START_STICKY;
+        }
         startEngine();
         // a restarted service brings the engine back, and the engine's own
         // auto connect setting decides whether a tunnel follows
         return Service.START_STICKY;
+    }
+
+    private void pause() {
+        paused = true;
+        showState("idle");
+        Senko senko = Senko.get();
+        if (senko != null && senko.isActive()) senko.disconnect(null);
+    }
+
+    private void resume() {
+        Senko senko = Senko.get();
+        if (senko == null || !senko.canConnect()) {
+            Log.w(TAG, "resume from the notification has nothing to connect");
+            return;
+        }
+        paused = false;
+        showState("connecting");
+        senko.connect(null);
     }
 
     private void startEngine() {
@@ -188,14 +218,24 @@ final class ServiceCore implements EventStream.Listener {
         tunnelWanted = Protocol.isActive(state);
         main.removeCallbacks(idleStop);
         if (tunnelWanted) {
+            paused = false;
             // a tunnel must outlive the screen, so the process is made foreground
             service.startForeground(NOTIFICATION_ID, notification(
                     service.getString("connected".equals(state) ? R.string.state_connected
-                                                                : R.string.state_connecting)));
+                                                                : R.string.state_connecting),
+                    actionPending(ACTION_PAUSE, R.string.notification_pause),
+                    actionPending(ACTION_STOP, R.string.notification_stop)));
             foreground = true;
             return;
         }
         tunnelOpen = false;
+        if (paused) {
+            // the notification outlives the tunnel until the user starts it again or stops the service
+            service.startForeground(NOTIFICATION_ID, notification(service.getString(R.string.state_paused),
+                    actionPending(ACTION_RESUME, R.string.notification_start)));
+            foreground = true;
+            return;
+        }
         if (foreground) {
             service.stopForeground(true);
             foreground = false;
@@ -209,26 +249,40 @@ final class ServiceCore implements EventStream.Listener {
         return PendingIntent.getActivity(service, 0, new Intent(service, HomeActivity.class), flags);
     }
 
-    private Notification notification(String text) {
+    private Compat.Action actionPending(String action, int label) {
+        int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+        if (Build.VERSION.SDK_INT >= 23) flags |= PendingIntent.FLAG_IMMUTABLE;
+        Intent intent = new Intent(service, service.getClass()).setAction(action);
+        // a service intent from a notification button: the service is already foreground, so a plain one works
+        return new Compat.Action(service.getString(label), PendingIntent.getService(service, action.hashCode(), intent, flags));
+    }
+
+    private Notification notification(String text, Compat.Action... actions) {
         String title = service.getString(R.string.app_name);
-        if (Build.VERSION.SDK_INT >= 26) return Oreo.notification(service, title, text, openAppIntent());
-        return Compat.ongoing(service, title, text, R.drawable.ic_stat, openAppIntent());
+        if (Build.VERSION.SDK_INT >= 26) return Oreo.notification(service, title, text, openAppIntent(), actions);
+        return Compat.ongoing(service, title, text, R.drawable.ic_stat, openAppIntent(), actions);
     }
 
     /** the channel classes arrived with android 8 */
     @android.annotation.TargetApi(26)
     private static final class Oreo {
-        static Notification notification(Context context, String title, String text, PendingIntent open) {
+        static Notification notification(Context context, String title, String text, PendingIntent open,
+                                         Compat.Action... actions) {
             NotificationManager manager = context.getSystemService(NotificationManager.class);
             manager.createNotificationChannel(new NotificationChannel(CHANNEL, title,
                     NotificationManager.IMPORTANCE_LOW));
-            return new Notification.Builder(context, CHANNEL)
+            Notification.Builder builder = new Notification.Builder(context, CHANNEL)
                     .setContentTitle(title)
                     .setContentText(text)
                     .setSmallIcon(R.drawable.ic_stat)
                     .setContentIntent(open)
-                    .setOngoing(true)
-                    .build();
+                    .setOngoing(true);
+            for (Compat.Action action : actions) builder.addAction(0, action.label, action.intent);
+            // android 12 and newer hold a foreground service notification back for up to 10 seconds
+            if (Build.VERSION.SDK_INT >= 31) {
+                builder.setForegroundServiceBehavior(Notification.FOREGROUND_SERVICE_IMMEDIATE);
+            }
+            return builder.build();
         }
     }
 }

@@ -47,4 +47,8 @@
     <string name="saved">Saved</string>
     <string name="log_title">Engine log</string>
     <string name="close">Close</string>
+    <string name="state_paused">Paused</string>
+    <string name="notification_pause">Pause</string>
+    <string name="notification_stop">Stop</string>
+    <string name="notification_start">Start</string>
 </resources>

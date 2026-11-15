@@ -47,4 +47,8 @@
     <string name="saved">Сохранено</string>
     <string name="log_title">Журнал движка</string>
     <string name="close">Закрыть</string>
+    <string name="state_paused">Приостановлено</string>
+    <string name="notification_pause">Пауза</string>
+    <string name="notification_stop">Стоп</string>
+    <string name="notification_start">Старт</string>
 </resources>
