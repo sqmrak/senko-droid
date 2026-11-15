@@ -20,7 +20,7 @@ public final class AboutActivity extends BaseActivity {
             + "@shizotoaster, @fly1ngangel, @anazerka, @fr0n1k, @vladosik228, @kfrom7, @ningmeng, @Vladus324";
     private static final String SPONSORS = "@s3dativee, @shizotoaster, @not_a_modder";
     private static final String TESTERS = "@inraxx, @s3dativee, @rafal_official, @QuaIcomm, @belo4kaFLUNI, "
-            + "@Wolfer_QUIC, @koshdevv, @Lineysom, @Lime_iOS6, @ogeprint, @ra1n_developer";
+            + "@Wolfer_QUIC, @koshdevv, @Lineysom, @Lime_iOS6, @ogeprint, @ra1n_developer, @andrey_b0dr3y";
 
     private int taps;
 
