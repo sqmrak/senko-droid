@@ -93,7 +93,7 @@ final class Ui {
     private static Drawable elevated(GradientDrawable fill, float radiusDp, int base) {
         if (base != 0 || !Theme.current().flags.contains("material5")) return fill;
         fill.setStroke(0, 0);
-        int shadowColor = Theme.isLight() ? 0x2e000000 : 0x66000000;
+        int shadowColor = Theme.isLight() ? 0x47000000 : 0x66000000;
         LayerDrawable layers = new LayerDrawable(new Drawable[] { solid(shadowColor, radiusDp), fill });
         layers.setLayerInset(0, 0, dp(1.5f), 0, 0);
         layers.setLayerInset(1, 0, 0, 0, dp(2));

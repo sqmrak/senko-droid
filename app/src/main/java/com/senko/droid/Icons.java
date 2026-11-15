@@ -150,7 +150,8 @@ final class Icons {
     }
 
     static Drawable placeholder(Context context) {
-        return resource(context, "server_placeholder", 0);
+        int id = context.getResources().getIdentifier("server_placeholder", "drawable", context.getPackageName());
+        return id == 0 ? null : rounded(context, id, 0.24f);
     }
 
     enum Shape { CHEVRON, BACK, PLUS, DOTS, CHECK, REFRESH, GAUGE }

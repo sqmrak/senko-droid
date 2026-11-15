@@ -72,6 +72,7 @@ public final class HomeActivity extends Activity implements Senko.Listener, Them
     private void build() {
         FrameLayout root = new FrameLayout(this);
         Ui.background(root, Ui.page());
+        Compat.navigationBar(this, Theme.color(Theme.BG_BOTTOM));
         if (Build.VERSION.SDK_INT >= 21) getWindow().setStatusBarColor(Theme.color(Theme.BG));
 
         HomeLayout column = new HomeLayout(this);

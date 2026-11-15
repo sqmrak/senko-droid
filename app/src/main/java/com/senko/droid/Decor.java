@@ -45,9 +45,7 @@ final class Decor {
         Bitmap bitmap = load(name);
         if (bitmap == null) return gradient;
         if (Theme.current().flags.contains("aero") && cachedSoft != null) {
-            Cover soft = new Cover(cachedSoft);
-            soft.setAlpha(128);
-            return new LayerDrawable(new Drawable[] { gradient, new Cover(bitmap), soft });
+            return new LayerDrawable(new Drawable[] { gradient, new Cover(cachedSoft) });
         }
         return new LayerDrawable(new Drawable[] { gradient, new Cover(bitmap) });
     }
@@ -74,13 +72,46 @@ final class Decor {
         cached = bitmap;
         cachedSoft = null;
         if (name.equals("frutiger_bg") || name.equals("frutiger_bg_dark")) {
-            // match the ios aero wallpaper without a full-size blur allocation
-            cachedSoft = Bitmap.createScaledBitmap(bitmap, Math.max(1, bitmap.getWidth() / 16),
-                    Math.max(1, bitmap.getHeight() / 16), true);
+            // blur the aero wallpaper at reduced size to keep old devices within their heap
+            cachedSoft = soften(bitmap);
         }
         cachedName = name;
         cachedWidth = width;
         return bitmap;
+    }
+
+    private static Bitmap soften(Bitmap bitmap) {
+        Bitmap small = Bitmap.createScaledBitmap(bitmap, Math.max(1, bitmap.getWidth() / 24),
+                Math.max(1, bitmap.getHeight() / 24), true);
+        int width = small.getWidth();
+        int height = small.getHeight();
+        int[] pixels = new int[width * height];
+        int[] blurred = new int[pixels.length];
+        small.getPixels(pixels, 0, width, 0, 0, width, height);
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int red = 0, green = 0, blue = 0, count = 0;
+                for (int dy = -1; dy <= 1; dy++) {
+                    int row = y + dy;
+                    if (row < 0 || row >= height) continue;
+                    for (int dx = -1; dx <= 1; dx++) {
+                        int col = x + dx;
+                        if (col < 0 || col >= width) continue;
+                        int color = pixels[row * width + col];
+                        red += (color >> 16) & 255;
+                        green += (color >> 8) & 255;
+                        blue += color & 255;
+                        count++;
+                    }
+                }
+                blurred[y * width + x] = 0xff000000 | (red / count << 16)
+                        | (green / count << 8) | blue / count;
+            }
+        }
+        Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+        result.setPixels(blurred, 0, width, 0, 0, width, height);
+        if (small != bitmap) small.recycle();
+        return result;
     }
 
     /** a bitmap scaled to cover its bounds and cropped, like aspect fill */

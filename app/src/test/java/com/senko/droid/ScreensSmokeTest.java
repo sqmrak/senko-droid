@@ -139,7 +139,23 @@ public class ScreensSmokeTest {
         Theme.apply("senko-frutigeraero", true, 0);
         android.graphics.drawable.Drawable page = Decor.page();
         assertTrue(page instanceof android.graphics.drawable.LayerDrawable);
-        assertTrue(((android.graphics.drawable.LayerDrawable) page).getNumberOfLayers() == 3);
+        assertEquals(2, ((android.graphics.drawable.LayerDrawable) page).getNumberOfLayers());
+    }
+
+    @Test
+    @Config(sdk = 28)
+    public void navigationBarFollowsThemeAndKeepsIconsVisible() {
+        ActivityController<Activity> controller = Robolectric.buildActivity(Activity.class).create();
+        Activity activity = controller.get();
+        Compat.navigationBar(activity, 0xff101010);
+        assertEquals(0xff101010, activity.getWindow().getNavigationBarColor());
+        assertEquals(0, activity.getWindow().getDecorView().getSystemUiVisibility()
+                & View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        Compat.navigationBar(activity, 0xffeeeeee);
+        assertEquals(0xffeeeeee, activity.getWindow().getNavigationBarColor());
+        assertTrue((activity.getWindow().getDecorView().getSystemUiVisibility()
+                & View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR) != 0);
+        controller.destroy();
     }
 
     @Test

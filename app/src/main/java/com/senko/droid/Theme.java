@@ -322,7 +322,8 @@ final class Theme {
 
     /** the colour of the power button and the state text: green up, red failed, the accent otherwise */
     static int stateColor(String state) {
-        if ("connected".equals(state)) return 0xff3dc75c;
+        // the saturated green is too loud on the grey light page of the material design theme
+        if ("connected".equals(state)) return light && current().flags.contains("material5") ? palette[CONN_ON] : 0xff3dc75c;
         if ("error".equals(state)) return 0xfff24d42;
         return palette[ACCENT];
     }

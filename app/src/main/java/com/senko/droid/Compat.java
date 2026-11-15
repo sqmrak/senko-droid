@@ -17,6 +17,38 @@ final class Compat {
     private Compat() {
     }
 
+    static void navigationBar(Activity activity, int color) {
+        if (android.os.Build.VERSION.SDK_INT >= 21) Api21.navigationBar(activity, color);
+    }
+
+    @android.annotation.TargetApi(21)
+    private static final class Api21 {
+        static void navigationBar(Activity activity, int color) {
+            android.view.Window window = activity.getWindow();
+            window.setNavigationBarColor(color);
+            if (android.os.Build.VERSION.SDK_INT >= 26) Api26.navigationBarIcons(window, color);
+            if (android.os.Build.VERSION.SDK_INT >= 29) Api29.navigationBarContrast(window);
+        }
+    }
+
+    @android.annotation.TargetApi(26)
+    private static final class Api26 {
+        static void navigationBarIcons(android.view.Window window, int color) {
+            View decor = window.getDecorView();
+            int flags = decor.getSystemUiVisibility();
+            if (Ui.onColor(color) == 0xff111111) flags |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+            else flags &= ~View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+            decor.setSystemUiVisibility(flags);
+        }
+    }
+
+    @android.annotation.TargetApi(29)
+    private static final class Api29 {
+        static void navigationBarContrast(android.view.Window window) {
+            window.setNavigationBarContrastEnforced(false);
+        }
+    }
+
     /** View.setBackground arrived with android 4.1, the older name is the same call */
     @SuppressWarnings("deprecation")
     static void setBackground(View view, Drawable drawable) {

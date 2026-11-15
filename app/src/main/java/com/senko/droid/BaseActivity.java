@@ -46,6 +46,7 @@ abstract class BaseActivity extends Activity implements Senko.Listener, Theme.Li
         getWindow().setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN
                 | android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         Ui.background(page, Ui.page());
+        Compat.navigationBar(this, Theme.color(Theme.BG_BOTTOM));
 
         LinearLayout bar = new LinearLayout(this);
         bar.setOrientation(LinearLayout.HORIZONTAL);
