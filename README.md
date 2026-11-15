@@ -69,7 +69,7 @@ make test-java
 make apk
 ```
 
-`make apk` writes `app/build/outputs/apk/debug/app-debug.apk`. `ABIS` selects architectures, default `armeabi armeabi-v7a arm64-v8a x86 x86_64`. `SENKODROID_API` selects the 32 bit api, default 9; arm64 and x86_64 use api 21 or later.
+`make apk` writes a universal apk and one apk per abi to `app/build/outputs/apk/debug/`. `ABIS` selects architectures to build, default `armeabi armeabi-v7a arm64-v8a x86 x86_64`. `SENKODROID_API` selects the 32 bit api, default 9; arm64 and x86_64 use api 21 or later.
 
 needs jdk 17, the android sdk and gradle (`SENKODROID_ANDROID`), ndk llvm and sysroot (`SENKODROID_LLVM`, `SENKODROID_SYSROOT`), ndk r15c api 9 files (`SENKODROID_NDK15`), openssl, ngtcp2 and nghttp3 sources (`SENKODROID_OPENSSL_SRC`, `SENKODROID_NGTCP2_SRC`, `SENKODROID_NGHTTP3_SRC`), go 1.27.1 and the pinned xray source (`SENKODROID_GO`, `SENKODROID_CORE_SRC`). `SENKODROID_AAPT2` selects a host-compatible aapt2. `SENKODROID_ROBOLECTRIC` selects the framework jar cache for `make test-java`.
 

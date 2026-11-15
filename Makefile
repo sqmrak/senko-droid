@@ -28,7 +28,7 @@ GRADLE_USER_HOME ?= $(SENKODROID_ANDROID)/gradle-home
 SENKODROID_AAPT2 ?= $(wildcard $(SENKODROID_ANDROID)/bin/aapt2)
 export JAVA_HOME ANDROID_HOME GRADLE_USER_HOME
 
-GRADLE = ./gradlew --no-daemon -Psenko.jnilibs=$(abspath $(BUILD))/jniLibs $(if $(SENKODROID_AAPT2),-Pandroid.aapt2FromMavenOverride=$(SENKODROID_AAPT2))
+GRADLE = ./gradlew --no-daemon -Psenko.jnilibs=$(abspath $(BUILD))/jniLibs '-Psenko.abis=$(ABIS)' $(if $(SENKODROID_AAPT2),-Pandroid.aapt2FromMavenOverride=$(SENKODROID_AAPT2))
 
 .PHONY: test test-java native core roots apk clean
 
@@ -77,7 +77,7 @@ roots:
 
 apk: native roots
 	$(GRADLE) :app:assembleDebug
-	@ls -l app/build/outputs/apk/debug/app-debug.apk
+	@ls -l app/build/outputs/apk/debug/*.apk
 
 clean:
 	$(MAKE) -C tests clean

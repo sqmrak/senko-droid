@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
 }
 
+def senkoAbis = (findProperty('senko.abis') ?: 'armeabi armeabi-v7a arm64-v8a x86 x86_64').split(' ') as List
+
 android {
     namespace 'com.senko.droid'
     // debian's arm64 aapt2 (the only one that runs on 16k page hosts) cannot parse the android-35 resource table
@@ -16,7 +18,16 @@ android {
         versionCode 2
         versionName '1.1.0-canary'
         ndk {
-            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+            abiFilters.addAll(senkoAbis)
+        }
+    }
+
+    splits {
+        abi {
+            enable true
+            reset()
+            include(*senkoAbis)
+            universalApk true
         }
     }
 
