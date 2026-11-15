@@ -530,6 +530,7 @@ struct ctl_check_job {
     uint64_t generation;
     int server_index;
     int want_stages;
+    char mode[sizeof ((ctl_cmd_t *)0)->name];
     vl_server_t profile;
     ctl_check_trace_t trace;
     char reason[320];
@@ -601,7 +602,7 @@ static void finish_fetch_job(ctl_server_t *s, ctl_fetch_job_t *job);
 
 static void *run_check_job(void *arg) {
     ctl_check_job_t *job = arg;
-    job->ms = job->check(job->check_ctx, "tcp", &job->profile,
+    job->ms = job->check(job->check_ctx, job->mode, &job->profile,
                          job->want_stages ? &job->trace : NULL,
                          job->reason, sizeof job->reason);
     ctl_ping_result_t result;
@@ -615,6 +616,8 @@ static void finish_check_job(ctl_server_t *s, ctl_check_job_t *job) {
     if (s->ping_active > 0) s->ping_active--;
     ctl_client_t *c = &s->clients[job->slot];
     if (c->fd == job->fd && c->generation == job->generation) {
+        if (strcmp(job->mode, "real") == 0)
+            record_ping(s, job->server_index, job->ms);
         char line[384];
         size_t n = 0;
         for (size_t i = 0; i < job->trace.count && i < CTL_CHECK_STAGE_MAX; ++i) {
@@ -642,6 +645,7 @@ static int start_check_job(ctl_server_t *s, ctl_client_t *c, const ctl_cmd_t *cm
     job->generation = c->generation;
     job->server_index = cmd->server_index;
     job->want_stages = cmd->want_stages;
+    snprintf(job->mode, sizeof job->mode, "%s", cmd->name);
     job->profile = s->engine.store.servers[cmd->server_index];
     pthread_t thread;
     if (pthread_create(&thread, NULL, run_check_job, job) != 0) {
@@ -2080,7 +2084,7 @@ static void dispatch_line(ctl_server_t *s, ctl_client_t *c,
                 client_write(c, reply, rn);
             return;
         }
-        if (strcmp(cmd.name, "tcp") == 0) {
+        if (strcmp(cmd.name, "tcp") == 0 || strcmp(cmd.name, "real") == 0) {
             if (start_check_job(s, c, &cmd) != 0)
                 client_write(c, "ERR too many checks in progress\n", 32);
             return;
@@ -2093,10 +2097,9 @@ static void dispatch_line(ctl_server_t *s, ctl_client_t *c,
                           &s->engine.store.servers[cmd.server_index],
                           cmd.want_stages ? &trace : NULL,
                           reason, sizeof reason);
-/* real and handshake carry a request through the node; tcp stops at its
-   front, which is a cdn edge for many nodes, and proxy and tunnel measure
-   whatever the live tunnel currently carries, which is not this entry */
-        if (strcmp(cmd.name, "real") == 0 || strcmp(cmd.name, "handshake") == 0)
+/* handshake carries a request through this node, while tunnel measures the
+   active tunnel and cannot be attributed to this entry */
+        if (strcmp(cmd.name, "handshake") == 0)
             record_ping(s, cmd.server_index, ms);
 /* the stages go out before the verdict so a client reading line by line has
    the whole path in hand by the time it sees PONG or ERR */

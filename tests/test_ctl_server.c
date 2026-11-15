@@ -192,10 +192,12 @@ static int mock_flush(void *ctx, const char *what, char *reason, size_t cap) {
 /* the stage trace the developer screen asks for with the optional keyword */
 static int g_check_stage_requests;
 static int g_check_hold_fd = -1;
+static int g_check_wrong_mode;
 
 static int mock_check_held(void *ctx, const char *mode, const vl_server_t *server,
                            ctl_check_trace_t *trace, char *reason, size_t reason_cap) {
-    (void)ctx; (void)mode; (void)server; (void)trace; (void)reason; (void)reason_cap;
+    (void)ctx; (void)server; (void)trace; (void)reason; (void)reason_cap;
+    if (strcmp(mode, "real") != 0) __sync_fetch_and_add(&g_check_wrong_mode, 1);
     char byte;
     return read(g_check_hold_fd, &byte, 1) == 1 ? 7 : -1;
 }
@@ -1390,8 +1392,9 @@ int main(void) {
         for (int i = 0; i < 10; ++i) ctl_server_step(&s, 2);
         ok("second check client authenticated", auth_client(&s, other, path));
         ctl_server_set_check(&s, mock_check_held);
-        send_line(cli, "CHECK tcp 0\n");
-        send_line(other, "CHECK tcp 1\n");
+        g_check_wrong_mode = 0;
+        send_line(cli, "CHECK real 0\n");
+        send_line(other, "CHECK real 1\n");
         for (int i = 0; i < 20; ++i) ctl_server_step(&s, 2);
         ok("two slow checks run together", s.ping_active == 2);
         int status = connect_unix(path);
@@ -1406,6 +1409,8 @@ int main(void) {
         ok("first check returns", strstr(buf, "PONG 0 7") != NULL);
         exchange(&s, other, buf, sizeof buf);
         ok("second check returns", strstr(buf, "PONG 1 7") != NULL);
+        ok("real checks keep their mode and record both results",
+           g_check_wrong_mode == 0 && s.ping_ms[0] == 7 && s.ping_ms[1] == 7);
         ctl_server_set_check(&s, NULL);
         close(status);
         close(other);
