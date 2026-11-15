@@ -47,7 +47,15 @@ final class EventStream {
         running = false;
         generation++;
         ControlClient.Session open = session;
-        if (open != null) open.close();
+        if (open != null) {
+            try {
+                // let the reader close its own socket after recv returns on old android
+                open.connection.shutdownInput();
+            } catch (IOException e) {
+                java.util.logging.Logger.getLogger(EventStream.class.getName())
+                        .warning("could not stop event socket: " + e);
+            }
+        }
         if (thread != null) thread.interrupt();
         thread = null;
     }

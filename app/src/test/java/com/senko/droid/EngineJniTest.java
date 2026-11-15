@@ -106,6 +106,11 @@ public final class EngineJniTest {
                 }
 
                 @Override
+                public void shutdownInput() throws IOException {
+                    channel.shutdownInput();
+                }
+
+                @Override
                 public void close() throws IOException {
                     channel.close();
                 }

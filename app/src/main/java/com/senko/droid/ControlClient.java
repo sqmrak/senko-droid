@@ -33,6 +33,8 @@ final class ControlClient {
         /** 0 waits forever */
         void setReadTimeout(int ms) throws IOException;
 
+        void shutdownInput() throws IOException;
+
         void close() throws IOException;
     }
 

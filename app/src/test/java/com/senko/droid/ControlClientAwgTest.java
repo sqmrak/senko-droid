@@ -25,6 +25,7 @@ public final class ControlClientAwgTest {
                         @Override public InputStream input() { return input; }
                         @Override public OutputStream output() { return new ByteArrayOutputStream(); }
                         @Override public void setReadTimeout(int ms) {}
+                        @Override public void shutdownInput() throws java.io.IOException { input.close(); }
                         @Override public void close() throws java.io.IOException { input.close(); }
                     };
                 }

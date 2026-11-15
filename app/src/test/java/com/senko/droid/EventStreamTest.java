@@ -22,6 +22,9 @@ public final class EventStreamTest {
         final PipedInputStream input = new PipedInputStream();
         final PipedOutputStream replies;
         final CountDownLatch closed = new CountDownLatch(1);
+        final CountDownLatch shutdown = new CountDownLatch(1);
+        volatile String closeThread;
+        boolean failShutdown;
 
         Connection() throws IOException {
             replies = new PipedOutputStream(input);
@@ -32,10 +35,77 @@ public final class EventStreamTest {
         @Override public InputStream input() { return input; }
         @Override public OutputStream output() { return new ByteArrayOutputStream(); }
         @Override public void setReadTimeout(int ms) {}
+        @Override public void shutdownInput() throws IOException {
+            if (failShutdown) {
+                shutdown.countDown();
+                throw new IOException("shutdown failed");
+            }
+            replies.close();
+            shutdown.countDown();
+        }
         @Override public void close() throws IOException {
+            closeThread = Thread.currentThread().getName();
             input.close();
             replies.close();
             closed.countDown();
+        }
+    }
+
+    @Test(timeout = 10000)
+    public void failedShutdownDoesNotCloseSocketOnStoppingThread() throws Exception {
+        File token = File.createTempFile("senko-token", ".txt");
+        FileOutputStream file = new FileOutputStream(token);
+        file.write("1234567890\n".getBytes("UTF-8"));
+        file.close();
+        final Connection connection = new Connection();
+        connection.failShutdown = true;
+        final CountDownLatch received = new CountDownLatch(1);
+        EventStream stream = new EventStream(new ControlClient(new ControlClient.Transport() {
+            @Override public ControlClient.Connection open() { return connection; }
+        }, token), new EventStream.Listener() {
+            @Override public void onLine(String line) { received.countDown(); }
+            @Override public void onConnected(boolean connected) {}
+        });
+        try {
+            stream.start();
+            assertTrue(received.await(2, TimeUnit.SECONDS));
+            stream.stop();
+            assertTrue(connection.shutdown.await(2, TimeUnit.SECONDS));
+            assertEquals(1, connection.closed.getCount());
+            connection.replies.close();
+            assertTrue(connection.closed.await(2, TimeUnit.SECONDS));
+            assertEquals("senko-events", connection.closeThread);
+        } finally {
+            stream.stop();
+            connection.replies.close();
+            token.delete();
+        }
+    }
+
+    @Test(timeout = 10000)
+    public void stopWakesReaderAndReaderClosesSocket() throws Exception {
+        File token = File.createTempFile("senko-token", ".txt");
+        FileOutputStream file = new FileOutputStream(token);
+        file.write("1234567890\n".getBytes("UTF-8"));
+        file.close();
+        final Connection connection = new Connection();
+        final CountDownLatch received = new CountDownLatch(1);
+        EventStream stream = new EventStream(new ControlClient(new ControlClient.Transport() {
+            @Override public ControlClient.Connection open() { return connection; }
+        }, token), new EventStream.Listener() {
+            @Override public void onLine(String line) { received.countDown(); }
+            @Override public void onConnected(boolean connected) {}
+        });
+        try {
+            stream.start();
+            assertTrue(received.await(2, TimeUnit.SECONDS));
+            stream.stop();
+            assertTrue(connection.shutdown.await(2, TimeUnit.SECONDS));
+            assertTrue(connection.closed.await(2, TimeUnit.SECONDS));
+            assertEquals("senko-events", connection.closeThread);
+        } finally {
+            stream.stop();
+            token.delete();
         }
     }
 

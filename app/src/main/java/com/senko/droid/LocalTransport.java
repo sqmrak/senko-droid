@@ -43,6 +43,11 @@ final class LocalTransport implements ControlClient.Transport {
             }
 
             @Override
+            public void shutdownInput() throws IOException {
+                socket.shutdownInput();
+            }
+
+            @Override
             public void close() throws IOException {
                 socket.close();
             }
