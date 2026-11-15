@@ -13,8 +13,8 @@ android {
         minSdk 9
         // 30 keeps the foreground service rules of android 14 out of the picture
         targetSdk 30
-        versionCode 1
-        versionName '1.0.0-canary'
+        versionCode 2
+        versionName '1.1.0-canary'
         ndk {
             abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
         }
